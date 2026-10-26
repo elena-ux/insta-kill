@@ -1,0 +1,17 @@
+# Local data and generated files
+*.db
+*.db-wal
+*.db-shm
+.DS_Store
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+build/
+frontend/node_modules/
+frontend/dist/
+frontend/test-results/
+frontend/playwright-report/
+docs/evidence/

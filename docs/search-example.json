@@ -1,0 +1,635 @@
+{
+  "recorded_at": "2026-10-26T19:11:24.096639+00:00",
+  "model": "sentence-transformers/all-MiniLM-L6-v2",
+  "device": "cpu",
+  "python": "3.12.13",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "versions": {
+    "numpy": "2.5.4",
+    "sentence-transformers": "6.2.0",
+    "torch": "2.14.1",
+    "fastapi": "0.148.0"
+  },
+  "database": "/Users/elena/Repos/Programming for AI/instakill/data/demo.db",
+  "posts": 30,
+  "embedding_shape": [
+    30,
+    384
+  ],
+  "embedding_dtype": "float32",
+  "embedding_bytes": 46080,
+  "model_parameter_bytes": 90852864,
+  "import_ms": 4269.3601670034695,
+  "model_load_ms": 1243.8022499991348,
+  "corpus_encoding_ms": 140.27441600046586,
+  "warm_query_encoding_ms": 2.9607910037157126,
+  "numpy_retrieval_ms": 0.06695900083286688,
+  "warm_top_5_ids": [
+    5,
+    1,
+    17,
+    3,
+    23
+  ],
+  "records": [
+    {
+      "query": "cheap dinner",
+      "relevant_ids": [
+        1,
+        2,
+        3
+      ],
+      "purpose": "original lab query",
+      "mode": "keyword",
+      "top_5_ids": [
+        4
+      ],
+      "precision_at_5": 0.0,
+      "request_ms": 5.1893330019083805,
+      "results": [
+        {
+          "post": {
+            "id": 4,
+            "user_id": 5,
+            "content": "Cheap headphones: a review of three pairs under twenty euros.",
+            "created_at": "2026-10-25T12:30:43.630696Z"
+          },
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "query": "cheap dinner",
+      "relevant_ids": [
+        1,
+        2,
+        3
+      ],
+      "purpose": "original lab query",
+      "mode": "semantic",
+      "top_5_ids": [
+        5,
+        1,
+        3,
+        17,
+        23
+      ],
+      "precision_at_5": 0.4,
+      "request_ms": 5658.34745799657,
+      "results": [
+        {
+          "post": {
+            "id": 5,
+            "user_id": 6,
+            "content": "A lovely restaurant for a birthday celebration. The tasting menu is expensive.",
+            "created_at": "2026-10-25T05:30:43.630696Z"
+          },
+          "score": 0.5499904525784429
+        },
+        {
+          "post": {
+            "id": 1,
+            "user_id": 2,
+            "content": "A budget-friendly restaurant opened near the station. Generous evening meals without a big bill.",
+            "created_at": "2026-10-26T09:30:43.630696Z"
+          },
+          "score": 0.49786590603139735
+        },
+        {
+          "post": {
+            "id": 3,
+            "user_id": 3,
+            "content": "Cook a filling pasta dish for two on a tiny grocery budget tonight.",
+            "created_at": "2026-10-25T19:30:43.630696Z"
+          },
+          "score": 0.4509048619006863
+        },
+        {
+          "post": {
+            "id": 17,
+            "user_id": 4,
+            "content": "Pasta night: a quick tomato sauce for a shared student kitchen.",
+            "created_at": "2026-10-25T21:30:43.630696Z"
+          },
+          "score": 0.4346126775283529
+        },
+        {
+          "post": {
+            "id": 23,
+            "user_id": 6,
+            "content": "A soup recipe using leftover vegetables from the weekly market.",
+            "created_at": "2026-10-24T03:30:43.630696Z"
+          },
+          "score": 0.38410550106060465
+        }
+      ]
+    },
+    {
+      "query": "beginner running route",
+      "relevant_ids": [
+        6,
+        7,
+        8
+      ],
+      "purpose": "original lab query",
+      "mode": "keyword",
+      "top_5_ids": [
+        10,
+        14,
+        26
+      ],
+      "precision_at_5": 0.0,
+      "request_ms": 0.8168330023181625,
+      "results": [
+        {
+          "post": {
+            "id": 10,
+            "user_id": 2,
+            "content": "Our running club is collecting old shoes for the community centre.",
+            "created_at": "2026-10-23T18:30:43.630696Z"
+          },
+          "score": 1.0
+        },
+        {
+          "post": {
+            "id": 14,
+            "user_id": 2,
+            "content": "A beginner photography walk around the old town on Saturday morning.",
+            "created_at": "2026-10-22T14:30:43.630696Z"
+          },
+          "score": 1.0
+        },
+        {
+          "post": {
+            "id": 26,
+            "user_id": 5,
+            "content": "A short beginner guide to JavaScript promises and async functions.",
+            "created_at": "2026-10-23T06:30:43.630696Z"
+          },
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "query": "beginner running route",
+      "relevant_ids": [
+        6,
+        7,
+        8
+      ],
+      "purpose": "original lab query",
+      "mode": "semantic",
+      "top_5_ids": [
+        6,
+        8,
+        7,
+        9,
+        14
+      ],
+      "precision_at_5": 0.6,
+      "request_ms": 21.12749999650987,
+      "results": [
+        {
+          "post": {
+            "id": 6,
+            "user_id": 3,
+            "content": "An easy jogging loop follows the river. Flat paths make it a good first run.",
+            "created_at": "2026-10-24T22:30:43.630696Z"
+          },
+          "score": 0.490933279754825
+        },
+        {
+          "post": {
+            "id": 8,
+            "user_id": 5,
+            "content": "A gentle two-kilometre trail through the hills for your first jogging session.",
+            "created_at": "2026-10-24T08:30:43.630696Z"
+          },
+          "score": 0.42578801513984704
+        },
+        {
+          "post": {
+            "id": 7,
+            "user_id": 4,
+            "content": "New to jogging? Try the short park loop, away from the river and all the traffic.",
+            "created_at": "2026-10-24T15:30:43.630696Z"
+          },
+          "score": 0.40481539863164795
+        },
+        {
+          "post": {
+            "id": 9,
+            "user_id": 6,
+            "content": "Training for a marathon: steep hill repeats and a fast finish this weekend.",
+            "created_at": "2026-10-24T01:30:43.630696Z"
+          },
+          "score": 0.360598465796395
+        },
+        {
+          "post": {
+            "id": 14,
+            "user_id": 2,
+            "content": "A beginner photography walk around the old town on Saturday morning.",
+            "created_at": "2026-10-22T14:30:43.630696Z"
+          },
+          "score": 0.3463489540243125
+        }
+      ]
+    },
+    {
+      "query": "learn Python types",
+      "relevant_ids": [
+        11,
+        12,
+        13
+      ],
+      "purpose": "original lab query",
+      "mode": "keyword",
+      "top_5_ids": [
+        11,
+        12,
+        13
+      ],
+      "precision_at_5": 0.6,
+      "request_ms": 0.3142499990644865,
+      "results": [
+        {
+          "post": {
+            "id": 11,
+            "user_id": 4,
+            "content": "Type hints in Python make function inputs and return values easier to understand.",
+            "created_at": "2026-10-23T11:30:43.630696Z"
+          },
+          "score": 1.0
+        },
+        {
+          "post": {
+            "id": 12,
+            "user_id": 3,
+            "content": "A gentle guide to Python annotations: str, int and list explained with small examples.",
+            "created_at": "2026-10-23T04:30:43.630696Z"
+          },
+          "score": 1.0
+        },
+        {
+          "post": {
+            "id": 13,
+            "user_id": 5,
+            "content": "Practising Python typing with Optional and dictionaries at the library this afternoon.",
+            "created_at": "2026-10-22T21:30:43.630696Z"
+          },
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "query": "learn Python types",
+      "relevant_ids": [
+        11,
+        12,
+        13
+      ],
+      "purpose": "original lab query",
+      "mode": "semantic",
+      "top_5_ids": [
+        13,
+        12,
+        11,
+        28,
+        17
+      ],
+      "precision_at_5": 0.6,
+      "request_ms": 21.427624997159,
+      "results": [
+        {
+          "post": {
+            "id": 13,
+            "user_id": 5,
+            "content": "Practising Python typing with Optional and dictionaries at the library this afternoon.",
+            "created_at": "2026-10-22T21:30:43.630696Z"
+          },
+          "score": 0.6461492496193554
+        },
+        {
+          "post": {
+            "id": 12,
+            "user_id": 3,
+            "content": "A gentle guide to Python annotations: str, int and list explained with small examples.",
+            "created_at": "2026-10-23T04:30:43.630696Z"
+          },
+          "score": 0.6238794639917085
+        },
+        {
+          "post": {
+            "id": 11,
+            "user_id": 4,
+            "content": "Type hints in Python make function inputs and return values easier to understand.",
+            "created_at": "2026-10-23T11:30:43.630696Z"
+          },
+          "score": 0.6180569636124564
+        },
+        {
+          "post": {
+            "id": 28,
+            "user_id": 2,
+            "content": "Comparing cosine similarity and word overlap for our class search project.",
+            "created_at": "2026-10-22T16:30:43.630696Z"
+          },
+          "score": 0.132038970641826
+        },
+        {
+          "post": {
+            "id": 17,
+            "user_id": 4,
+            "content": "Pasta night: a quick tomato sauce for a shared student kitchen.",
+            "created_at": "2026-10-25T21:30:43.630696Z"
+          },
+          "score": 0.11551615363687172
+        }
+      ]
+    },
+    {
+      "query": "inexpensive supper",
+      "relevant_ids": [
+        1,
+        2,
+        3
+      ],
+      "purpose": "paraphrase without exact overlap",
+      "mode": "keyword",
+      "top_5_ids": [],
+      "precision_at_5": 0.0,
+      "request_ms": 0.32662499870639294,
+      "results": []
+    },
+    {
+      "query": "inexpensive supper",
+      "relevant_ids": [
+        1,
+        2,
+        3
+      ],
+      "purpose": "paraphrase without exact overlap",
+      "mode": "semantic",
+      "top_5_ids": [
+        5,
+        1,
+        17,
+        3,
+        23
+      ],
+      "precision_at_5": 0.4,
+      "request_ms": 21.22191600210499,
+      "results": [
+        {
+          "post": {
+            "id": 5,
+            "user_id": 6,
+            "content": "A lovely restaurant for a birthday celebration. The tasting menu is expensive.",
+            "created_at": "2026-10-25T05:30:43.630696Z"
+          },
+          "score": 0.575761833629574
+        },
+        {
+          "post": {
+            "id": 1,
+            "user_id": 2,
+            "content": "A budget-friendly restaurant opened near the station. Generous evening meals without a big bill.",
+            "created_at": "2026-10-26T09:30:43.630696Z"
+          },
+          "score": 0.5040963277571939
+        },
+        {
+          "post": {
+            "id": 17,
+            "user_id": 4,
+            "content": "Pasta night: a quick tomato sauce for a shared student kitchen.",
+            "created_at": "2026-10-25T21:30:43.630696Z"
+          },
+          "score": 0.4598644649445774
+        },
+        {
+          "post": {
+            "id": 3,
+            "user_id": 3,
+            "content": "Cook a filling pasta dish for two on a tiny grocery budget tonight.",
+            "created_at": "2026-10-25T19:30:43.630696Z"
+          },
+          "score": 0.44883613858826577
+        },
+        {
+          "post": {
+            "id": 23,
+            "user_id": 6,
+            "content": "A soup recipe using leftover vegetables from the weekly market.",
+            "created_at": "2026-10-24T03:30:43.630696Z"
+          },
+          "score": 0.4414854556154455
+        }
+      ]
+    },
+    {
+      "query": "quantum computing scholarship",
+      "relevant_ids": [],
+      "purpose": "absent topic; nearest is not necessarily relevant",
+      "mode": "keyword",
+      "top_5_ids": [],
+      "precision_at_5": 0.0,
+      "request_ms": 0.2953750008600764,
+      "results": []
+    },
+    {
+      "query": "quantum computing scholarship",
+      "relevant_ids": [],
+      "purpose": "absent topic; nearest is not necessarily relevant",
+      "mode": "semantic",
+      "top_5_ids": [
+        21,
+        17,
+        30,
+        26,
+        13
+      ],
+      "precision_at_5": 0.0,
+      "request_ms": 22.320833006233443,
+      "results": [
+        {
+          "post": {
+            "id": 21,
+            "user_id": 4,
+            "content": "Looking for a teammate for the university chess tournament.",
+            "created_at": "2026-10-24T17:30:43.630696Z"
+          },
+          "score": 0.182037939424552
+        },
+        {
+          "post": {
+            "id": 17,
+            "user_id": 4,
+            "content": "Pasta night: a quick tomato sauce for a shared student kitchen.",
+            "created_at": "2026-10-25T21:30:43.630696Z"
+          },
+          "score": 0.145031869665049
+        },
+        {
+          "post": {
+            "id": 30,
+            "user_id": 1,
+            "content": "Building a small social app with classmates, one useful feature at a time.",
+            "created_at": "2026-10-26T06:30:43.630696Z"
+          },
+          "score": 0.1444736375548833
+        },
+        {
+          "post": {
+            "id": 26,
+            "user_id": 5,
+            "content": "A short beginner guide to JavaScript promises and async functions.",
+            "created_at": "2026-10-23T06:30:43.630696Z"
+          },
+          "score": 0.13834074727044318
+        },
+        {
+          "post": {
+            "id": 13,
+            "user_id": 5,
+            "content": "Practising Python typing with Optional and dictionaries at the library this afternoon.",
+            "created_at": "2026-10-22T21:30:43.630696Z"
+          },
+          "score": 0.13532716583901114
+        }
+      ]
+    },
+    {
+      "query": "beginner running route away from the river",
+      "relevant_ids": [
+        7,
+        8
+      ],
+      "purpose": "location constraint; inspect riverside false positives",
+      "mode": "keyword",
+      "top_5_ids": [
+        7,
+        10,
+        14,
+        23,
+        1
+      ],
+      "precision_at_5": 0.2,
+      "request_ms": 0.342790997819975,
+      "results": [
+        {
+          "post": {
+            "id": 7,
+            "user_id": 4,
+            "content": "New to jogging? Try the short park loop, away from the river and all the traffic.",
+            "created_at": "2026-10-24T15:30:43.630696Z"
+          },
+          "score": 4.0
+        },
+        {
+          "post": {
+            "id": 10,
+            "user_id": 2,
+            "content": "Our running club is collecting old shoes for the community centre.",
+            "created_at": "2026-10-23T18:30:43.630696Z"
+          },
+          "score": 2.0
+        },
+        {
+          "post": {
+            "id": 14,
+            "user_id": 2,
+            "content": "A beginner photography walk around the old town on Saturday morning.",
+            "created_at": "2026-10-22T14:30:43.630696Z"
+          },
+          "score": 2.0
+        },
+        {
+          "post": {
+            "id": 23,
+            "user_id": 6,
+            "content": "A soup recipe using leftover vegetables from the weekly market.",
+            "created_at": "2026-10-24T03:30:43.630696Z"
+          },
+          "score": 2.0
+        },
+        {
+          "post": {
+            "id": 1,
+            "user_id": 2,
+            "content": "A budget-friendly restaurant opened near the station. Generous evening meals without a big bill.",
+            "created_at": "2026-10-26T09:30:43.630696Z"
+          },
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "query": "beginner running route away from the river",
+      "relevant_ids": [
+        7,
+        8
+      ],
+      "purpose": "location constraint; inspect riverside false positives",
+      "mode": "semantic",
+      "top_5_ids": [
+        6,
+        7,
+        8,
+        27,
+        14
+      ],
+      "precision_at_5": 0.4,
+      "request_ms": 21.02608300629072,
+      "results": [
+        {
+          "post": {
+            "id": 6,
+            "user_id": 3,
+            "content": "An easy jogging loop follows the river. Flat paths make it a good first run.",
+            "created_at": "2026-10-24T22:30:43.630696Z"
+          },
+          "score": 0.6961509497720098
+        },
+        {
+          "post": {
+            "id": 7,
+            "user_id": 4,
+            "content": "New to jogging? Try the short park loop, away from the river and all the traffic.",
+            "created_at": "2026-10-24T15:30:43.630696Z"
+          },
+          "score": 0.5699897350658579
+        },
+        {
+          "post": {
+            "id": 8,
+            "user_id": 5,
+            "content": "A gentle two-kilometre trail through the hills for your first jogging session.",
+            "created_at": "2026-10-24T08:30:43.630696Z"
+          },
+          "score": 0.3806247529436504
+        },
+        {
+          "post": {
+            "id": 27,
+            "user_id": 6,
+            "content": "The riverside path is closed this evening because of flooding.",
+            "created_at": "2026-10-22T23:30:43.630696Z"
+          },
+          "score": 0.34149616437908675
+        },
+        {
+          "post": {
+            "id": 14,
+            "user_id": 2,
+            "content": "A beginner photography walk around the old town on Saturday morning.",
+            "created_at": "2026-10-22T14:30:43.630696Z"
+          },
+          "score": 0.3265236190095644
+        }
+      ]
+    }
+  ],
+  "interpretation": "Hand-authored synthetic labels; a demonstration of behavior, not held-out model-quality evidence. Precision@5 uses denominator 5 even when fewer results return. Absent-topic cases have no relevant posts."
+}

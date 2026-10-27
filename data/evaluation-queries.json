@@ -1,0 +1,8 @@
+[
+{"query":"cheap dinner","relevant_ids":[1,2,3],"purpose":"original lab query"},
+{"query":"beginner running route","relevant_ids":[6,7,8],"purpose":"original lab query"},
+{"query":"learn Python types","relevant_ids":[11,12,13],"purpose":"original lab query"},
+{"query":"inexpensive supper","relevant_ids":[1,2,3],"purpose":"paraphrase without exact overlap"},
+{"query":"quantum computing scholarship","relevant_ids":[],"purpose":"absent topic; nearest is not necessarily relevant"},
+{"query":"beginner running route away from the river","relevant_ids":[7,8],"purpose":"location constraint; inspect riverside false positives"}
+]

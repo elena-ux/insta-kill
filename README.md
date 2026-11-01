@@ -1,16 +1,17 @@
 # InstaKill
 
-Programming for AI · Elena Podariu-Ungureanu · 26 octombrie 2026
+Programming for AI · Elena Podariu-Ungureanu · 26 October 2026
 
-O aplicație socială construită cu FastAPI și SQLite.
+A social app built with FastAPI and SQLite.
 
-- [Week 2](docs/week02.md): pregătirea unei postări.
-- [Week 3](docs/week03.md): căutare după sens și după cuvinte.
-- [Contract API](docs/api-contract.md): cereri, răspunsuri și erori.
+- [Week 2](docs/week02.md): preparing a post draft.
+- [Week 3](docs/week03.md): semantic and keyword search.
+- [Week 4](docs/week04.md): personalized and chronological feeds.
+- [API contract](docs/api-contract.md): requests, responses, and errors.
 
-## Rulare
+## Running the app
 
-Python 3.11+; verificat cu Python 3.12.
+Python 3.11+; tested with Python 3.12.
 
 ```bash
 python3.12 -m venv .venv
@@ -20,6 +21,27 @@ python -m scripts.seed_db --demo data/demo.db
 INSTAKILL_DB_PATH="$PWD/data/demo.db" uvicorn app.main:app --reload
 ```
 
-API: `http://127.0.0.1:8000/docs`. Teste: `python -m pytest`.
-Seed-ul creează o bază nouă cu date sintetice și refuză suprascrierea ei.
-Prima căutare semantică descarcă modelul pe CPU dacă nu este deja salvat local.
+API: `http://127.0.0.1:8000/docs`. Tests: `python -m pytest`.
+The seed creates a new database with synthetic data and refuses to overwrite it.
+The first semantic search downloads the CPU model if it is not already cached locally.
+
+## Feed — Week 4
+
+`GET /feed?user_id=1&limit=20&strategy=for_you` returns posts ordered by score.
+With `strategy=chronological`, posts are ordered newest first.
+The demo seed includes follows and likes; user 6 follows nobody.
+The feed can be tried from `/docs` without the frontend.
+
+For `C` candidates and limit `k`, scoring costs O(C) and heap selection costs
+O(C log k) for k > 1; for k = 1, it is O(C).
+The chronological strategy also uses a heap, with timestamps instead of scores.
+A request also includes SQLite reads: filtering posts, checking the user's likes,
+reading followed authors, and counting likes per post. This cost depends on the
+database tables and indexes, not just the remaining candidates.
+For `for_you`, finding the maximum like count adds O(M), where M is the number
+of posts with likes returned by the aggregation. Memory includes O(C) for
+candidates and scores, O(M) for counts, and the set of followed authors.
+
+Per-post like counts and their maximum are recalculated for each request.
+They are the first precomputation target because they are shared across users
+at the same `now`. The current implementation calculates them on demand.

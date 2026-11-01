@@ -1,1 +1,1 @@
-"""External adapters, replaceable without changing application policies."""
+"""Adapters for external libraries used by the application."""

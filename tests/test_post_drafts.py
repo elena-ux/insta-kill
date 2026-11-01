@@ -7,7 +7,7 @@ from app.domain.models import Post, User
 def test_prepares_unsaved_draft_for_author_without_changing_input():
     author = User(id=7, username="elena")
     original_author = author.model_dump()
-    content = " \nSalut, lume!\nÎncă  un rând.\t "
+    content = " \nHello, world!\nAnother  café visit.\t "
 
     draft = prepare_post_draft(author=author, content=content)
 
@@ -15,7 +15,7 @@ def test_prepares_unsaved_draft_for_author_without_changing_input():
     assert draft.model_dump() == {
         "id": None,
         "user_id": 7,
-        "content": "Salut, lume!\nÎncă  un rând.",
+        "content": "Hello, world!\nAnother  café visit.",
         "created_at": None,
     }
     assert author.model_dump() == original_author

@@ -1,22 +1,21 @@
-# Week 3 — Căutare după sens
+# Week 3 — Semantic search
 
-Am folosit `all-MiniLM-L6-v2` pe CPU pentru a transforma textele în vectori.
-Nu am antrenat un model nou.
+I used `all-MiniLM-L6-v2` on CPU to convert text into vectors.
+I did not train a new model.
 
-- [`cosine_similarity`](../app/retrieval.py) compară vectorul întrebării cu vectorii postărilor. Vectorii zero primesc scorul 0.
-- [`stable_top_k`](../app/retrieval.py) alege primele rezultate: scor descrescător, apoi ID crescător la egalitate.
-- [`SearchService.search`](../app/application/search.py) citește postările, calculează scorurile și construiește răspunsul.
+- [`cosine_similarity`](../app/retrieval.py) compares the query vector with the post vectors. Zero vectors receive a score of 0.
+- [`stable_top_k`](../app/retrieval.py) selects the top results: score descending, then ID ascending for ties.
+- [`SearchService.search`](../app/application/search.py) reads posts, calculates scores, and builds the response.
 
-`GET /search?q=inexpensive%20supper&limit=5` caută după sens.
-`mode=keyword` compară cuvintele comune.
+`GET /search?q=inexpensive%20supper&limit=5` searches by meaning.
+`mode=keyword` compares shared words.
 
-Encoderul încarcă modelul la prima căutare semantică și îl reutilizează.
-Măsurarea timpilor se face separat, în [`evaluate_search.py`](../scripts/evaluate_search.py).
-Scriptul măsoară importul, încărcarea modelului și codificarea corpusului înaintea
-comparațiilor. Timpii cererilor folosesc modelul deja încărcat și includ recalcularea
-vectorilor postărilor.
+The encoder loads the model on the first semantic search and reuses it.
+Timing is measured separately in [`evaluate_search.py`](../scripts/evaluate_search.py).
+The script measures imports, model loading, and corpus encoding before the comparisons.
+Request timings use the loaded model and include recalculating post vectors.
 
-Pe cele 30 de postări sintetice, căutarea după sens găsește restaurantul
-accesibil fără cuvinte comune cu întrebarea. Totuși, pune un restaurant scump
-înaintea lui și poate ignora negațiile. Similaritatea nu garantează relevanța.
-[Rezultatele măsurate](search-example.json).
+On the 30 synthetic posts, semantic search finds the affordable restaurant
+without shared words with the query. However, it ranks an expensive restaurant
+above it and can ignore negation. Similarity does not guarantee relevance.
+[Measured results](search-example.json).

@@ -63,6 +63,7 @@ def test_keyword_baseline_and_empty_database(database):
     assert hits[0].post.id == 11 and hits[0].score == 1
     assert not encoder.calls
     with closing(get_connection(database)) as c, c:
+        c.execute('DELETE FROM "like"')
         c.execute("DELETE FROM post")
     assert service.search("types").results == [] and not encoder.calls
 

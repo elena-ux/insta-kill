@@ -19,6 +19,20 @@ CREATE TABLE IF NOT EXISTS post (
     content TEXT NOT NULL,
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
+CREATE TABLE IF NOT EXISTS follow (
+    follower_id INTEGER NOT NULL REFERENCES user(id),
+    followed_id INTEGER NOT NULL REFERENCES user(id),
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    PRIMARY KEY (follower_id, followed_id),
+    CHECK (follower_id != followed_id)
+);
+CREATE TABLE IF NOT EXISTS "like" (
+    user_id INTEGER NOT NULL REFERENCES user(id),
+    post_id INTEGER NOT NULL REFERENCES post(id),
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    PRIMARY KEY (user_id, post_id)
+);
+CREATE INDEX IF NOT EXISTS ix_like_post ON "like"(post_id, created_at);
 """
 
 
@@ -34,6 +48,7 @@ def get_connection(path: Path | None = None) -> sqlite3.Connection:
 
 
 def init_db(path: Path | None = None) -> None:
+    """Create missing tables and indexes without deleting existing data."""
     with closing(get_connection(path)) as conn, conn:
         conn.executescript(SCHEMA)
 

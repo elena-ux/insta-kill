@@ -21,7 +21,7 @@ POSTS = [
 
 
 def seed() -> None:
-    """Extend the original seed without duplicating posts on repeat runs."""
+    """Add demo data without duplicating posts on repeated runs."""
     init_db()
     with closing(get_connection()) as conn, conn:
         for username in USERS:
@@ -34,11 +34,29 @@ def seed() -> None:
                 conn.execute(
                     "INSERT INTO post(user_id, content) VALUES (?, ?)", (users[username], content)
                 )
-    print(f"Seeded starter samples at {database_path()}")
+        conn.executemany(
+            "INSERT OR IGNORE INTO follow(follower_id, followed_id) VALUES (?,?)",
+            [
+                (users["alice"], users["bob"]),
+                (users["alice"], users["dave"]),
+                (users["bob"], users["carol"]),
+            ],
+        )
+        post_ids = [r[0] for r in conn.execute("SELECT id FROM post ORDER BY id")]
+        if post_ids:
+            conn.executemany(
+                'INSERT OR IGNORE INTO "like"(user_id,post_id) VALUES (?,?)',
+                [
+                    (users["bob"], post_ids[0]),
+                    (users["carol"], post_ids[0]),
+                    (users["dave"], post_ids[-1]),
+                ],
+            )
+    print(f"Seeded starter samples, follows and likes at {database_path()}")
 
 
 def seed_demo(path: Path, now: datetime | None = None) -> None:
-    """Refuse overwrite; the caller chooses a new, explicitly separate database."""
+    """Create a separate demo database and refuse to overwrite existing databases."""
     path = path.resolve()
     if path == DB_PATH.resolve() or path.exists():
         raise ValueError("Choose a new demo path; existing databases are never overwritten.")
@@ -48,6 +66,7 @@ def seed_demo(path: Path, now: datetime | None = None) -> None:
     posts = json.loads((ROOT / "data/demo-posts.json").read_text())
 
     def stamp(hours):
+        """Base all demo timestamps on the same time for reproducible tests."""
         return (now - timedelta(hours=hours)).isoformat()
 
     with closing(get_connection(path)) as conn, conn:
@@ -65,7 +84,48 @@ def seed_demo(path: Path, now: datetime | None = None) -> None:
                 for i, (author, text) in enumerate(posts, 1)
             ],
         )
-    print(f"Created {path}: 6 synthetic users and 30 posts.")
+        # User 6 has no follows to demonstrate the cold-start behavior.
+        conn.executemany(
+            "INSERT INTO follow(follower_id,followed_id,created_at) VALUES (?,?,?)",
+            [
+                (1, 2, stamp(500)),
+                (1, 4, stamp(500)),
+                (2, 3, stamp(500)),
+                (3, 5, stamp(500)),
+                (4, 2, stamp(500)),
+            ],
+        )
+        likes = [
+            (2, 7),
+            (3, 7),
+            (4, 7),
+            (5, 7),
+            (6, 7),
+            (2, 1),
+            (3, 1),
+            (5, 1),
+            (6, 1),
+            (2, 11),
+            (3, 11),
+            (5, 11),
+            (6, 11),
+            (3, 16),
+            (4, 16),
+            (5, 16),
+            (6, 16),
+            (1, 14),
+            (1, 19),
+            (2, 2),
+            (3, 3),
+            (4, 6),
+            (5, 12),
+            (6, 17),
+        ]
+        conn.executemany(
+            'INSERT INTO "like"(user_id,post_id,created_at) VALUES (?,?,?)',
+            [(u, p, stamp(0.5)) for u, p in likes],
+        )
+    print(f"Created {path}: 6 synthetic users, 30 posts, 5 follows, {len(likes)} likes.")
 
 
 if __name__ == "__main__":

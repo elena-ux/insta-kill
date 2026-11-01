@@ -11,13 +11,13 @@ def cosine_similarity(query_vector, corpus_vectors):
         raise ValueError("Expected one query vector and a matching corpus matrix.")
     if not np.isfinite(query).all() or not np.isfinite(corpus).all():
         raise ValueError("Embeddings must contain finite numbers.")
-    # Fiecare rând din corpus reprezintă vectorul unei postări.
+    # Each corpus row is the vector of one post.
     dot_products = corpus @ query
     query_length = np.linalg.norm(query)
     post_lengths = np.linalg.norm(corpus, axis=1)
     denominators = post_lengths * query_length
 
-    # Dacă un vector are lungimea zero, scorul lui rămâne zero.
+    # A zero-length vector keeps a score of zero.
     scores = np.divide(
         dot_products,
         denominators,
@@ -35,6 +35,6 @@ def stable_top_k(scores, post_ids, k):
         raise ValueError("Scores and IDs must be aligned one-dimensional arrays.")
     if not np.isfinite(values).all() or not isinstance(k, int) or k < 0:
         raise ValueError("Scores must be finite and k must be a nonnegative integer.")
-    # lexsort folosește ultima cheie prima: scor descrescător, apoi ID crescător.
+    # lexsort uses the last key first: score descending, then ID ascending.
     sorted_indices = np.lexsort((ids, -values))
     return sorted_indices[:k]

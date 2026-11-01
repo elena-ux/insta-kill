@@ -1,10 +1,9 @@
-# Week 2 — Pregătirea unei postări
+# Week 2 — Preparing a post draft
 
-Am adăugat [`prepare_post_draft`](../app/application/post_drafts.py).
-Funcția verifică ID-ul autorului, elimină spațiile de la capetele textului și
-respinge conținutul gol. Returnează un `Post` nesalvat.
+I added [`prepare_post_draft`](../app/application/post_drafts.py).
+The function validates the author ID, trims leading and trailing whitespace,
+and rejects blank content. It returns an unsaved `Post`.
 
-Serviciul nu conține HTTP sau SQLite. Endpointul `POST /posts/preview` are
-[contractul documentat](api-contract.md), dar nu este implementat.
+The service contains no HTTP or SQLite code and is tested directly as a Python function.
 
-Verificare: 8 teste pentru serviciu și un test pentru `/health`.
+Validation: 8 service tests and one `/health` test.

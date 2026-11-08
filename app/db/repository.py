@@ -7,6 +7,8 @@ from pathlib import Path
 
 from app.db.database import get_connection
 from app.domain.models import Post
+from app.learned import HistoricalLike, LearnedSnapshot
+from app.ranking import utc
 
 
 @dataclass
@@ -26,6 +28,31 @@ class SQLitePostRepository:
                 "SELECT id, user_id, content, created_at FROM post ORDER BY id"
             ).fetchall()
         return [Post(**dict(row)) for row in rows]
+
+    def learned_snapshot(self, user_id: int, now: datetime) -> LearnedSnapshot | None:
+        """Read a consistent catalogue and history, strictly before now."""
+        now = utc(now)
+        with closing(get_connection(self.path)) as conn:
+            conn.execute("BEGIN")
+            if conn.execute("SELECT id FROM user WHERE id = ?", (user_id,)).fetchone() is None:
+                return None
+            rows = conn.execute(
+                "SELECT id, user_id, content, created_at FROM post ORDER BY id"
+            ).fetchall()
+            posts = [Post(**dict(row)) for row in rows]
+            # Compare datetimes in Python to preserve microseconds and timezone offsets.
+            posts = [post for post in posts if utc(post.created_at) < now]
+            visible_ids = {post.id for post in posts}
+            categories = {}
+            for row in conn.execute("SELECT post_id, category FROM post_category"):
+                if row["post_id"] in visible_ids:
+                    categories.setdefault(row["post_id"], set()).add(row["category"])
+            likes = []
+            for row in conn.execute('SELECT user_id, post_id, created_at FROM "like"'):
+                created_at = utc(datetime.fromisoformat(row["created_at"]))
+                if row["post_id"] in visible_ids and created_at < now:
+                    likes.append(HistoricalLike(row["user_id"], row["post_id"], created_at))
+        return LearnedSnapshot(posts, categories, likes)
 
     def feed_snapshot(self, user_id: int, now: datetime) -> FeedSnapshot | None:
         """Read feed data up to now; None means the user does not exist."""

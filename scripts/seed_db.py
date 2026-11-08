@@ -64,6 +64,7 @@ def seed_demo(path: Path, now: datetime | None = None) -> None:
     now = now or datetime.now(UTC)
     init_db(path)
     posts = json.loads((ROOT / "data/demo-posts.json").read_text())
+    categories = json.loads((ROOT / "data/demo-categories.json").read_text())
 
     def stamp(hours):
         """Base all demo timestamps on the same time for reproducible tests."""
@@ -83,6 +84,10 @@ def seed_demo(path: Path, now: datetime | None = None) -> None:
                 (i, author, text, stamp((i * 7) % 100 + 1))
                 for i, (author, text) in enumerate(posts, 1)
             ],
+        )
+        conn.executemany(
+            "INSERT INTO post_category(post_id, category) VALUES (?, ?)",
+            [(int(post_id), name) for post_id, names in categories.items() for name in names],
         )
         # User 6 has no follows to demonstrate the cold-start behavior.
         conn.executemany(

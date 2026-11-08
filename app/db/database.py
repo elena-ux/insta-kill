@@ -32,6 +32,11 @@ CREATE TABLE IF NOT EXISTS "like" (
     created_at TEXT NOT NULL DEFAULT (datetime('now')),
     PRIMARY KEY (user_id, post_id)
 );
+CREATE TABLE IF NOT EXISTS post_category (
+    post_id INTEGER NOT NULL REFERENCES post(id) ON DELETE CASCADE,
+    category TEXT NOT NULL CHECK (length(trim(category)) > 0),
+    PRIMARY KEY (post_id, category)
+);
 CREATE INDEX IF NOT EXISTS ix_like_post ON "like"(post_id, created_at);
 """
 

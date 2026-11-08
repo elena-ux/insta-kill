@@ -1,0 +1,48 @@
+{
+  "measured_at_utc": "2026-11-08T20:52:06.931827+00:00",
+  "python": "3.12.13",
+  "numpy": "2.5.4",
+  "platform": "macOS-27.2-arm64-arm-64bit",
+  "machine": "arm64",
+  "model_sha256": "32885360b73503766e41356aa0502e6391a6ed5c17f21bc9a9d8ba298cbddebc",
+  "parameters": 129,
+  "model_bytes": 4120,
+  "method": "CPU NumPy; seed 0; uniform [0,1] signals; one warm-up and five timed runs per size",
+  "includes": "standardization and forward pass only",
+  "excludes": "model loading, allocation, database, feature construction and top-k",
+  "measurements": [
+    {
+      "candidates": 1000,
+      "runs_ms": [
+        0.09245899855159223,
+        0.08854099723976105,
+        0.08425000123679638,
+        0.08404099207837135,
+        0.0837499974295497
+      ],
+      "median_ms": 0.08425000123679638
+    },
+    {
+      "candidates": 10000,
+      "runs_ms": [
+        0.7258749974425882,
+        0.7047499966574833,
+        0.7122499955585226,
+        0.7075829926179722,
+        0.7050830026855692
+      ],
+      "median_ms": 0.7075829926179722
+    },
+    {
+      "candidates": 100000,
+      "runs_ms": [
+        8.315917002619244,
+        7.393042003968731,
+        7.432375001371838,
+        7.281707992660813,
+        7.303125006728806
+      ],
+      "median_ms": 7.393042003968731
+    }
+  ]
+}

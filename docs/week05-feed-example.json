@@ -1,0 +1,46 @@
+{
+  "captured_at_utc": "2026-11-08T20:54:37.645352+00:00",
+  "request": "GET /feed?user_id=1&strategy=learned&limit=5",
+  "database": "data/week05-demo.db (synthetic)",
+  "response": {
+    "user_id": 1,
+    "strategy": "learned",
+    "posts": [
+      {
+        "post_id": 7,
+        "user_id": 4,
+        "content": "New to jogging? Try the short park loop, away from the river and all the traffic.",
+        "created_at": "2026-11-06T18:52:27.160011Z",
+        "score": 0.8545095897761045
+      },
+      {
+        "post_id": 11,
+        "user_id": 4,
+        "content": "Type hints in Python make function inputs and return values easier to understand.",
+        "created_at": "2026-11-05T14:52:27.160011Z",
+        "score": 0.8133800793180759
+      },
+      {
+        "post_id": 16,
+        "user_id": 3,
+        "content": "Best street food in Lisbon: grilled fish and a walk through the market.",
+        "created_at": "2026-11-08T07:52:27.160011Z",
+        "score": 0.8132483297735236
+      },
+      {
+        "post_id": 1,
+        "user_id": 2,
+        "content": "A budget-friendly restaurant opened near the station. Generous evening meals without a big bill.",
+        "created_at": "2026-11-08T12:52:27.160011Z",
+        "score": 0.8132381814101374
+      },
+      {
+        "post_id": 2,
+        "user_id": 4,
+        "content": "The student canteen serves an affordable evening meal after lectures.",
+        "created_at": "2026-11-08T05:52:27.160011Z",
+        "score": 0.29521237158735836
+      }
+    ]
+  }
+}

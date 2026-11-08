@@ -1,0 +1,11 @@
+{
+  "source": "Week 5 completed Colab notebook, export-cell printed rows (rounded to six decimals)",
+  "features": ["freshness", "affinity", "popularity", "activity", "lifetime", "age"],
+  "rows": [
+    [0.020159, 0.15, 0.0, 0.222999, 0.518748, 0.675891],
+    [0.387413, 0.1, 0.0, 0.222999, 0.0, 0.164167],
+    [0.023264, 0.1, 0.0, 0.222999, 0.459336, 0.651094]
+  ],
+  "probabilities": [0.136088, 0.048395, 0.117502],
+  "absolute_tolerance": 0.000001
+}

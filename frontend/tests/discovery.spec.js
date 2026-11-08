@@ -59,6 +59,28 @@ for (const viewport of [
     expect(await page.locator(".post-meta").allTextContents()).not.toEqual(
       personal,
     );
+    await page.getByRole("radio", { name: "Learned", exact: true }).check();
+    await expect(
+      page.getByRole("heading", { name: "Ranked by the model" }),
+    ).toBeVisible();
+    await expect(page.locator(".post")).toHaveCount(5);
+    await expect(page.locator(".score").first()).toContainText(
+      "Estimated like",
+    );
+    await expect(page.locator(".result-note")).toContainText("synthetic posts");
+    const learnedResponse = await page.request.get(
+      "/feed?user_id=1&strategy=learned&limit=5",
+    );
+    const learned = await learnedResponse.json();
+    const displayed = await page.locator(".post-meta span").allTextContents();
+    expect(displayed).toEqual(
+      learned.posts.map((post) => `Post ${post.post_id}`),
+    );
+    await page.screenshot({
+      path: path.join(evidence, `learned-${viewport.width}.png`),
+      fullPage: true,
+      animations: "disabled",
+    });
     await page.getByRole("spinbutton", { name: "Your user ID" }).fill("999");
     await page.getByRole("button", { name: "Load feed" }).click();
     await expect(page.getByRole("alert")).toContainText("does not exist");
@@ -125,4 +147,42 @@ test("loading, duplicate prevention, errors, recovery and keyboard focus", async
     fullPage: true,
     animations: "disabled",
   });
+});
+
+test("learned feed errors, empty results and switching to a working strategy", async ({
+  page,
+}) => {
+  await page.goto("/search/");
+  await page.getByRole("button", { name: "Your feed", exact: true }).click();
+  await page.getByRole("radio", { name: "Learned", exact: true }).check();
+  await page.route("**/feed?*", async (route) => {
+    if (
+      new URL(route.request().url()).searchParams.get("strategy") !== "learned"
+    ) {
+      await route.continue();
+      return;
+    }
+    await route.fulfill({
+      status: 503,
+      contentType: "application/json",
+      body: JSON.stringify({
+        detail: "Learned feed is unavailable. Try For you or Latest.",
+      }),
+    });
+  });
+  await page.getByRole("button", { name: "Load feed" }).click();
+  await expect(page.getByRole("alert")).toContainText("Try For you or Latest");
+  await page.getByRole("radio", { name: "Latest", exact: true }).check();
+  await expect(page.locator(".post")).toHaveCount(5);
+  await page.unroute("**/feed?*");
+  await page.route("**/feed?*", async (route) => {
+    await route.fulfill({
+      contentType: "application/json",
+      body: JSON.stringify({ user_id: 1, strategy: "learned", posts: [] }),
+    });
+  });
+  await page.getByRole("radio", { name: "Learned", exact: true }).check();
+  await expect(
+    page.getByRole("heading", { name: "You’re all caught up." }),
+  ).toBeVisible();
 });

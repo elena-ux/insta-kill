@@ -5,9 +5,11 @@ from typing import Literal
 
 from pydantic import BaseModel, FiniteFloat
 
+from app.infrastructure.like_model import LearnedUnavailable
+from app.learned import Model, rank_learned
 from app.ranking import FeedSignals, FeedWeights, chronological_feed, rank_feed, utc
 
-FeedStrategy = Literal["for_you", "chronological"]
+FeedStrategy = Literal["for_you", "chronological", "learned"]
 
 
 class UnknownUser(ValueError):
@@ -45,17 +47,53 @@ def popularity(likes: int, maximum_likes: int) -> float:
 
 
 class FeedService:
-    def __init__(self, repository, weights: FeedWeights | None = None) -> None:
+    def __init__(
+        self, repository, weights: FeedWeights | None = None, like_model: Model | None = None
+    ) -> None:
         self.repository = repository
         self.weights = weights if weights is not None else FeedWeights()
+        self.like_model = like_model
 
     def build(
         self, user_id: int, now: datetime, strategy: FeedStrategy = "for_you", limit: int = 20
     ) -> FeedResponse:
         """Read candidates, apply the strategy, and build the feed response."""
-        if user_id <= 0 or not 1 <= limit <= 50 or strategy not in ("for_you", "chronological"):
+        if (
+            user_id <= 0
+            or not 1 <= limit <= 50
+            or strategy not in ("for_you", "chronological", "learned")
+        ):
             raise ValueError("Invalid feed parameters.")
         now = utc(now)
+        if strategy == "learned":
+            snapshot = self.repository.learned_snapshot(user_id, now)
+            if snapshot is None:
+                raise UnknownUser("This user does not exist.")
+            if self.like_model is None:
+                raise LearnedUnavailable("Learned feed is unavailable. Try For you or Latest.")
+            ranked = [
+                (hit.post, hit.score)
+                for hit in rank_learned(snapshot, user_id, now, self.like_model, limit)
+            ]
+        else:
+            ranked = self._week4_feed(user_id, now, strategy, limit)
+        return FeedResponse(
+            user_id=user_id,
+            strategy=strategy,
+            posts=[
+                FeedItem(
+                    post_id=p.id,
+                    user_id=p.user_id,
+                    content=p.content,
+                    created_at=p.created_at,
+                    score=score,
+                )
+                for p, score in ranked
+            ],
+        )
+
+    def _week4_feed(self, user_id: int, now: datetime, strategy: str, limit: int):
+        """Keep the original formula and chronological strategy unchanged."""
         snapshot = self.repository.feed_snapshot(user_id, now)
         if snapshot is None:
             raise UnknownUser("This user does not exist.")
@@ -78,17 +116,4 @@ class FeedService:
                 (hit.post, hit.score)
                 for hit in rank_feed(candidates, signals, now, self.weights, limit)
             ]
-        return FeedResponse(
-            user_id=user_id,
-            strategy=strategy,
-            posts=[
-                FeedItem(
-                    post_id=p.id,
-                    user_id=p.user_id,
-                    content=p.content,
-                    created_at=p.created_at,
-                    score=score,
-                )
-                for p, score in ranked
-            ],
-        )
+        return ranked

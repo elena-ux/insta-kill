@@ -21,6 +21,9 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 include = ["app*"]
 
+[tool.setuptools.package-data]
+app = ["models/*.npz"]
+
 [tool.ruff]
 line-length = 100
 extend-exclude = ["app/domain/models.py"]

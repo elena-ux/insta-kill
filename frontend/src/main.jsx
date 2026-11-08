@@ -98,14 +98,18 @@ function App() {
         throw new Error(
           typeof body.detail === "string"
             ? body.detail
-            : "Check your search settings and try again.",
+            : view === "search"
+              ? "Check your search settings and try again."
+              : "Check the user ID and feed settings, then try again.",
         );
       setData(body);
       setRevision((n) => n + 1);
     } catch (e) {
       setError(
         e.name === "TimeoutError"
-          ? "This is taking longer than expected. Try By words, or retry in a moment."
+          ? view === "search"
+            ? "This is taking longer than expected. Try By words, or retry in a moment."
+            : "This is taking longer than expected. Try another feed strategy, or retry."
           : e.message === "Failed to fetch"
             ? "We could not reach InstaKill. Check that the app is running, then retry."
             : e.message,
@@ -186,7 +190,7 @@ function App() {
           <p>
             {isSearch
               ? "Ideas, recommendations and everyday discoveries. Find a post, even when you don’t have the exact words."
-              : "The same community, a different order. Explore what is fresh, what is popular, and who you follow."}
+              : "The same community, a different order. Compare a simple formula, the latest posts, and a model’s predictions."}
           </p>
         </div>
         <div className="workspace">
@@ -294,6 +298,7 @@ function App() {
                     : [
                         ["for_you", "For you"],
                         ["chronological", "Latest"],
+                        ["learned", "Learned"],
                       ]
                   ).map(([value, label]) => (
                     <label
@@ -386,6 +391,8 @@ function App() {
                         </>
                       ) : activeStrategy === "for_you" ? (
                         "Selected for you"
+                      ) : activeStrategy === "learned" ? (
+                        "Ranked by the model"
                       ) : (
                         "The latest conversations"
                       )}
@@ -422,7 +429,9 @@ function App() {
                                       : `${post.score} matching ${post.score === 1 ? "word" : "words"}`
                                     : activeStrategy === "for_you"
                                       ? `Feed score ${post.score.toFixed(3)}`
-                                      : "Newest first"}
+                                      : activeStrategy === "learned"
+                                        ? `Estimated like ${(post.score * 100).toFixed(1)}%`
+                                        : "Newest first"}
                                 </span>
                               </div>
                             </div>
@@ -454,7 +463,9 @@ function App() {
                         ? activeMode === "semantic"
                           ? "Similar meaning is a clue, not a guarantee. Check whether a post fits what you need."
                           : "Matching words counts shared words. It can miss a good post that uses a different phrase."
-                        : "Your own posts and posts you’ve already liked are left out."}
+                        : activeStrategy === "learned"
+                          ? "Model estimates on synthetic posts, not measured like rates. Your own posts and posts you’ve already liked are left out."
+                          : "Your own posts and posts you’ve already liked are left out."}
                     </p>
                   )}
                 </>
@@ -471,7 +482,7 @@ function App() {
                   <p>
                     {isSearch
                       ? "Start with a question or try one of the examples above. Your next useful conversation could use entirely different words."
-                      : "Load a member’s feed, then switch between For you and Latest to compare the order."}
+                      : "Load a member’s feed, then switch between For you, Latest and Learned to compare the order."}
                   </p>
                 </div>
               )}
@@ -489,19 +500,31 @@ function App() {
             <p>
               {isSearch
                 ? "“Cheap dinner” and “a budget-friendly restaurant” can point to the same idea. Search by meaning helps make that connection."
-                : "For you balances fresh posts, authors you follow and community likes. Latest simply puts the newest posts first."}
+                : activeStrategy === "learned"
+                  ? "Learned uses six signals, including the categories you have liked, to estimate which posts you might like next. The model was trained on MovieLens."
+                  : "For you balances fresh posts, authors you follow and community likes. Latest simply puts the newest posts first."}
             </p>
             <p className="note-limit">
               {isSearch
                 ? "Looking for a specific name or phrase? Try By words."
-                : "No follows yet? You can still discover fresh and popular posts from the community."}
+                : activeStrategy === "learned"
+                  ? "No likes yet? The model still scores posts, with no category preference or activity history."
+                  : "No follows yet? You can still discover fresh and popular posts from the community."}
             </p>
             <div className="learning-note">
-              <span>{isSearch ? "From Week 3" : "From Week 4"}</span>
+              <span>
+                {isSearch
+                  ? "From Week 3"
+                  : activeStrategy === "learned"
+                    ? "From Week 5"
+                    : "From Week 4"}
+              </span>
               <p>
                 {isSearch
                   ? "Finding relevant posts beyond exact word matches."
-                  : "Making a ranking policy visible and explainable."}
+                  : activeStrategy === "learned"
+                    ? "Using a trained model to score posts, one batch at a time."
+                    : "Making a ranking policy visible and explainable."}
               </p>
             </div>
           </aside>

@@ -1,0 +1,71 @@
+{
+  "verified_at_utc": "2026-11-08T21:02:37.974661+00:00",
+  "scope": "Local Week 5 implementation; no commit, push, deployment or notebook edits.",
+  "base_commit": "11e7422a976eafe87eb2dc89523dd768d1b4c15d",
+  "checks": {
+    "backend": {
+      "command": "python -m pytest -q",
+      "passed": 53,
+      "failed": 0
+    },
+    "ruff": {
+      "command": "ruff check .",
+      "result": "passed"
+    },
+    "frontend_check": {
+      "command": "npm --prefix frontend run check",
+      "result": "passed"
+    },
+    "frontend_build": {
+      "command": "npm --prefix frontend run build",
+      "result": "passed"
+    },
+    "browser": {
+      "command": "npm --prefix frontend run test:e2e",
+      "passed": 4,
+      "failed": 0,
+      "flaky": 0,
+      "viewports": [
+        1440,
+        390
+      ],
+      "extra_accessibility_width": 320,
+      "executable": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+      "report": "docs/evidence/week05/browser-tests.json"
+    },
+    "visual_review": {
+      "result": "Desktop/mobile learned screenshots inspected; no clipping or layout defects found",
+      "screenshots": [
+        "docs/evidence/week05/learned-1440.png",
+        "docs/evidence/week05/learned-390.png"
+      ]
+    },
+    "wheel": {
+      "command": "python -m pip wheel . --no-deps --no-build-isolation --wheel-dir <temporary-directory>",
+      "result": "Built successfully; packaged model bytes match source; load_model and empty prediction passed outside repository"
+    },
+    "live_api": {
+      "request": "GET /feed?user_id=1&strategy=learned&limit=5",
+      "status": 200,
+      "post_ids": [
+        7,
+        11,
+        16,
+        1,
+        2
+      ]
+    }
+  },
+  "source_files_unchanged_sha256": {
+    "week05.ipynb": "287c72e12c82aa391ce4b1a39f79bc51da7259d55e5b24226d2bdac8cf76d167",
+    "week05_(1).ipynb": "558b33d7fd08b8c1a12fa613b3629e82c3dde7bcf4dc2386f25242d6998b06a1",
+    "like_model.npz": "32885360b73503766e41356aa0502e6391a6ed5c17f21bc9a9d8ba298cbddebc",
+    "README.md - Documente Google.pdf": "56498cfe860aef7ecddaa5077e73842c8bcc9a53c0374e2f9edcc65af2f6020a"
+  },
+  "model_sha256": "32885360b73503766e41356aa0502e6391a6ed5c17f21bc9a9d8ba298cbddebc",
+  "demo_database": "data/week05-demo.db",
+  "benchmark": "docs/week05-benchmark.json",
+  "api_example": "docs/week05-feed-example.json",
+  "browser_note": "Cached Playwright Chromium could not launch because its framework file was missing. The complete browser suite passed with installed Chrome.",
+  "quality_limit": "MovieLens metrics are not evidence of recommendation quality or calibration on social posts."
+}

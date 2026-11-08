@@ -7,6 +7,7 @@ A social app built with FastAPI and SQLite.
 - [Week 2](docs/week02.md): preparing a post draft.
 - [Week 3](docs/week03.md): semantic and keyword search.
 - [Week 4](docs/week04.md): personalized and chronological feeds.
+- [Week 5](docs/week05.md): a learned feed using the exported NumPy model.
 - [API contract](docs/api-contract.md): requests, responses, and errors.
 
 ## Running the app
@@ -24,6 +25,30 @@ INSTAKILL_DB_PATH="$PWD/data/demo.db" uvicorn app.main:app --reload
 API: `http://127.0.0.1:8000/docs`. Tests: `python -m pytest`.
 The seed creates a new database with synthetic data and refuses to overwrite it.
 The first semantic search downloads the CPU model if it is not already cached locally.
+
+## Feed — Week 5
+
+`GET /feed?user_id=1&limit=20&strategy=learned` ranks posts by the model's
+estimated probability of a like. It uses category history and the notebook's
+six signals. `for_you` remains the separate Week 4 formula and default strategy.
+
+To try all three strategies in the existing UI:
+
+```bash
+python -m scripts.seed_db --demo data/week05-demo.db
+npm --prefix frontend ci
+npm --prefix frontend run build
+INSTAKILL_DB_PATH="$PWD/data/week05-demo.db" uvicorn app.main:app --port 8010
+```
+
+Open `http://127.0.0.1:8010/search/`, choose **Your feed**, then **Learned**.
+API documentation: `http://127.0.0.1:8010/docs`.
+Run the seed only once for that path; reuse the database on later starts.
+The new demo includes manually assigned categories and leaves `data/demo.db` alone.
+Older databases gain an empty category table at startup; untagged posts have zero affinity.
+The model is packaged locally and needs no download or training to serve a feed.
+
+See [Week 5](docs/week05.md) for the implementation, tests, and prediction timings.
 
 ## Feed — Week 4
 

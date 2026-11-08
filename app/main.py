@@ -1,3 +1,4 @@
+import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -11,6 +12,9 @@ from app.application.search import SearchService
 from app.db.database import init_db
 from app.db.repository import SQLitePostRepository
 from app.infrastructure.encoder import SentenceEncoder
+from app.infrastructure.like_model import MODEL_PATH, LearnedUnavailable, load_model
+
+logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
@@ -19,11 +23,16 @@ async def lifespan(app: FastAPI):
     yield
 
 
-def create_app() -> FastAPI:
+def create_app(*, like_model_path: Path = MODEL_PATH) -> FastAPI:
     app = FastAPI(title="InstaKill", lifespan=lifespan)
     repository = SQLitePostRepository()
     app.state.search_service = SearchService(repository, SentenceEncoder())
-    app.state.feed_service = FeedService(repository)
+    try:
+        like_model = load_model(like_model_path)
+    except LearnedUnavailable:
+        logger.warning("Week 5 model unavailable; other feed strategies remain available.")
+        like_model = None
+    app.state.feed_service = FeedService(repository, like_model=like_model)
     app.include_router(router)
 
     @app.get("/health")

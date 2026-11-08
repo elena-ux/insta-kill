@@ -9,6 +9,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from app.application.feed import FeedResponse, FeedService, FeedStrategy, UnknownUser
 from app.application.search import SearchMode, SearchResponse, SearchService
 from app.infrastructure.encoder import SearchUnavailable
+from app.infrastructure.like_model import LearnedUnavailable
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -54,3 +55,5 @@ def feed(
         return service.build(user_id, datetime.now(UTC), strategy, limit)
     except UnknownUser as exc:
         raise HTTPException(404, str(exc)) from exc
+    except LearnedUnavailable as exc:
+        raise HTTPException(503, str(exc)) from exc

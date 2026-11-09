@@ -16,6 +16,9 @@ export default defineConfig({
         },
       },
       "/feed": "http://127.0.0.1:8010",
+      "/dataset": "http://127.0.0.1:8010",
+      "/posts": "http://127.0.0.1:8010",
+      "/health": "http://127.0.0.1:8010",
     },
   },
 });

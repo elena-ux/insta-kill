@@ -5,7 +5,7 @@ import sqlite3
 from contextlib import closing
 from pathlib import Path
 
-DB_PATH = Path(__file__).resolve().parent.parent.parent / "instakill.db"
+DB_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "instakill.db"
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS user (
@@ -38,6 +38,18 @@ CREATE TABLE IF NOT EXISTS post_category (
     PRIMARY KEY (post_id, category)
 );
 CREATE INDEX IF NOT EXISTS ix_like_post ON "like"(post_id, created_at);
+CREATE TABLE IF NOT EXISTS dataset_info (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    source TEXT NOT NULL,
+    reference_time TEXT NOT NULL,
+    catalogue_user_id INTEGER NOT NULL REFERENCES user(id)
+);
+CREATE TABLE IF NOT EXISTS movielens_post (
+    post_id INTEGER PRIMARY KEY REFERENCES post(id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS movielens_user (
+    user_id INTEGER PRIMARY KEY REFERENCES user(id) ON DELETE CASCADE
+);
 """
 
 
@@ -54,8 +66,23 @@ def get_connection(path: Path | None = None) -> sqlite3.Connection:
 
 def init_db(path: Path | None = None) -> None:
     """Create missing tables and indexes without deleting existing data."""
-    with closing(get_connection(path)) as conn, conn:
+    target = path if path is not None else database_path()
+    target.parent.mkdir(parents=True, exist_ok=True)
+    with closing(get_connection(target)) as conn, conn:
         conn.executescript(SCHEMA)
+        # Upgrade the earlier MovieLens-only database without changing its records.
+        metadata = conn.execute(
+            "SELECT source,catalogue_user_id FROM dataset_info WHERE id=1"
+        ).fetchone()
+        if metadata and metadata["source"] == "movielens":
+            conn.execute(
+                "INSERT OR IGNORE INTO movielens_post SELECT id FROM post WHERE user_id=?",
+                (metadata["catalogue_user_id"],),
+            )
+            conn.execute(
+                "INSERT OR IGNORE INTO movielens_user SELECT id FROM user WHERE id<?",
+                (metadata["catalogue_user_id"],),
+            )
 
 
 if __name__ == "__main__":

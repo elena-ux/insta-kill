@@ -26,20 +26,30 @@ def evaluate(database: Path, output: Path) -> dict:
     encoder.model = SentenceTransformer(MODEL_NAME, device="cpu")
     model_load_ms = (perf_counter() - load_start) * 1000
 
-    posts = repo.all_posts()
+    posts = repo.all_posts("community")
     encoding_start = perf_counter()
     post_vectors = encoder.encode([post.content for post in posts])
     corpus_encoding_ms = (perf_counter() - encoding_start) * 1000
 
     service = SearchService(repo, encoder)
-    labels = json.loads(
-        (Path(__file__).resolve().parent.parent / "data/evaluation-queries.json").read_text()
+    fixture = json.loads(
+        (Path(__file__).resolve().parent.parent / "data/community.json").read_text()
     )
+    ids_by_text = {post.content: post.id for post in posts}
+    labels = [
+        {
+            **case,
+            "relevant_ids": [
+                ids_by_text[fixture["posts"][i - 1]["content"]] for i in case["relevant_ids"]
+            ],
+        }
+        for case in fixture["queries"]
+    ]
     records = []
     for case in labels:
         for mode in ["keyword", "semantic"]:
             start = perf_counter()
-            result = service.search(case["query"], mode, 5)
+            result = service.search(case["query"], mode, 5, "community")
             elapsed = (perf_counter() - start) * 1000
             ids = [hit.post.id for hit in result.results]
             records.append(

@@ -1,0 +1,54 @@
+{
+  "database": "data/instakill.db",
+  "collections": {
+    "community": {
+      "posts": 36,
+      "likes": 24,
+      "users": 11
+    },
+    "movies": {
+      "posts": 9724,
+      "likes": 48580,
+      "users": 610
+    }
+  },
+  "backend": {
+    "passed": 59,
+    "failed": 0,
+    "command": "python -m pytest -q"
+  },
+  "browser": {
+    "passed": 6,
+    "failed": 0,
+    "viewports": [
+      1440,
+      390
+    ],
+    "additional_zoom_check": "320px at 200 percent"
+  },
+  "ruff": "passed",
+  "frontend_check": "passed",
+  "production_build": "passed",
+  "notebook_comparison": {
+    "users": 4,
+    "cutoffs": 3,
+    "candidate_rows": 94815,
+    "maximum_signal_difference": 0.0,
+    "maximum_prediction_difference": 0.0
+  },
+  "checks_explained": [
+    "Small examples check formulas, exclusions, ordering and ties against expected results.",
+    "MovieLens database rows match the original source mapping; inference matches the notebook.",
+    "Adding community likes does not change MovieLens results.",
+    "Community metadata excludes the MovieLens catalogue account and reference time.",
+    "Browser results match API responses for search and feed; both collections use the same server.",
+    "Draft preview trims text and rejects blank input without saving a post."
+  ],
+  "preservation": {
+    "model_sha256": "32885360b73503766e41356aa0502e6391a6ed5c17f21bc9a9d8ba298cbddebc",
+    "completed_notebook_sha256": "558b33d7fd08b8c1a12fa613b3629e82c3dde7bcf4dc2386f25242d6998b06a1",
+    "weekly_explanations_match_commit": "580f151f4bd37b74ffb0e01fda2e343179d31277",
+    "earlier_databases": "Verified backup outside the repository; content and relations retained in the unified database"
+  },
+  "limit": "Checks demonstrate calculation and integration correctness. They do not establish recommendation quality on real social posts."
+}

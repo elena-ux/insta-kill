@@ -11,6 +11,10 @@ for (const viewport of [
     await page.setViewportSize(viewport);
     const errors = [];
     page.on("pageerror", (error) => errors.push(error.message));
+    const community = await (
+      await page.request.get("/dataset?collection=community")
+    ).json();
+    const userId = String(community.first_user_id);
     await page.goto("/search/");
     await page.evaluate(() => document.fonts.ready);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
@@ -69,7 +73,7 @@ for (const viewport of [
     );
     await expect(page.locator(".result-note")).toContainText("synthetic posts");
     const learnedResponse = await page.request.get(
-      "/feed?user_id=1&strategy=learned&limit=5",
+      `/feed?user_id=${userId}&strategy=learned&limit=5&collection=community`,
     );
     const learned = await learnedResponse.json();
     const displayed = await page.locator(".post-meta span").allTextContents();
@@ -84,7 +88,7 @@ for (const viewport of [
     await page.getByRole("spinbutton", { name: "Your user ID" }).fill("999");
     await page.getByRole("button", { name: "Load feed" }).click();
     await expect(page.getByRole("alert")).toContainText("does not exist");
-    await page.getByRole("spinbutton", { name: "Your user ID" }).fill("1");
+    await page.getByRole("spinbutton", { name: "Your user ID" }).fill(userId);
     await page.getByRole("button", { name: "Retry", exact: true }).click();
     await expect(page.locator(".post")).toHaveCount(5);
     expect(

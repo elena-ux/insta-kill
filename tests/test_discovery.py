@@ -107,7 +107,7 @@ def test_search_api_and_recoverable_encoder_failure(database):
         response = client.get("/search", params={"q": "Python", "mode": "keyword", "limit": 2})
         assert response.status_code == 200 and len(response.json()["results"]) == 2
         assert client.get("/health").json() == {"status": "ok"}
-        assert client.post("/posts/preview").status_code == 404
+        assert client.post("/posts/preview").status_code == 422  # Missing draft input.
 
 
 def test_demo_refuses_existing_database(database):

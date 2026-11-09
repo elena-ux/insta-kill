@@ -1,0 +1,318 @@
+{
+  "dataset": {
+    "source": "movielens",
+    "reference_time": "2018-09-24T14:27:31+00:00",
+    "catalogue_user_id": 611,
+    "posts": 9724,
+    "likes": 48580,
+    "users": 610,
+    "first_user_id": 1,
+    "last_user_id": 610
+  },
+  "mapping": "movieId -> post.id; title -> content; genres -> categories; rating >= 4 -> like",
+  "source_mapping_passed": true,
+  "model_sha256": "32885360b73503766e41356aa0502e6391a6ed5c17f21bc9a9d8ba298cbddebc",
+  "notebook_and_model_unchanged": true,
+  "notebook_comparisons": [
+    {
+      "user_id": 1,
+      "at": "2013-03-19T09:55:48+00:00",
+      "candidates": 6800,
+      "max_signal_error": 0.0,
+      "max_prediction_error": 0.0
+    },
+    {
+      "user_id": 2,
+      "at": "2013-03-19T09:55:48+00:00",
+      "candidates": 7000,
+      "max_signal_error": 0.0,
+      "max_prediction_error": 0.0
+    },
+    {
+      "user_id": 414,
+      "at": "2013-03-19T09:55:48+00:00",
+      "candidates": 5904,
+      "max_signal_error": 0.0,
+      "max_prediction_error": 0.0
+    },
+    {
+      "user_id": 442,
+      "at": "2013-03-19T09:55:48+00:00",
+      "candidates": 7000,
+      "max_signal_error": 0.0,
+      "max_prediction_error": 0.0
+    },
+    {
+      "user_id": 1,
+      "at": "2016-07-10T02:36:29+00:00",
+      "candidates": 7794,
+      "max_signal_error": 0.0,
+      "max_prediction_error": 0.0
+    },
+    {
+      "user_id": 2,
+      "at": "2016-07-10T02:36:29+00:00",
+      "candidates": 7975,
+      "max_signal_error": 0.0,
+      "max_prediction_error": 0.0
+    },
+    {
+      "user_id": 414,
+      "at": "2016-07-10T02:36:29+00:00",
+      "candidates": 6898,
+      "max_signal_error": 0.0,
+      "max_prediction_error": 0.0
+    },
+    {
+      "user_id": 442,
+      "at": "2016-07-10T02:36:29+00:00",
+      "candidates": 7994,
+      "max_signal_error": 0.0,
+      "max_prediction_error": 0.0
+    },
+    {
+      "user_id": 1,
+      "at": "2018-09-24T14:27:31+00:00",
+      "candidates": 9524,
+      "max_signal_error": 0.0,
+      "max_prediction_error": 0.0
+    },
+    {
+      "user_id": 2,
+      "at": "2018-09-24T14:27:31+00:00",
+      "candidates": 9705,
+      "max_signal_error": 0.0,
+      "max_prediction_error": 0.0
+    },
+    {
+      "user_id": 414,
+      "at": "2018-09-24T14:27:31+00:00",
+      "candidates": 8497,
+      "max_signal_error": 0.0,
+      "max_prediction_error": 0.0
+    },
+    {
+      "user_id": 442,
+      "at": "2018-09-24T14:27:31+00:00",
+      "candidates": 9724,
+      "max_signal_error": 0.0,
+      "max_prediction_error": 0.0
+    }
+  ],
+  "cold_start_user": 442,
+  "most_active_user": 414,
+  "request_timing": "FastAPI TestClient, database reads through JSON response; no network; one warm-up and five measured runs per user",
+  "requests": [
+    {
+      "user_id": 1,
+      "runs_ms": [
+        127.93595899711363,
+        90.93254199251533,
+        117.15508399356622,
+        116.19183400762267,
+        116.5324169996893
+      ],
+      "median_ms": 116.5324169996893
+    },
+    {
+      "user_id": 2,
+      "runs_ms": [
+        122.3166670097271,
+        122.8590419923421,
+        121.59850000170991,
+        122.16895900201052,
+        122.7560419938527
+      ],
+      "median_ms": 122.3166670097271
+    },
+    {
+      "user_id": 414,
+      "runs_ms": [
+        97.25129199796356,
+        126.34212498960551,
+        187.7080419944832,
+        135.10141600272618,
+        132.5567919993773
+      ],
+      "median_ms": 132.5567919993773
+    },
+    {
+      "user_id": 442,
+      "runs_ms": [
+        191.13566700252704,
+        144.97108300565742,
+        140.93237499764655,
+        144.99870801228099,
+        147.77320799476
+      ],
+      "median_ms": 144.99870801228099
+    }
+  ],
+  "examples": [
+    {
+      "user_id": 1,
+      "strategy": "learned",
+      "posts": [
+        {
+          "post_id": 79132,
+          "user_id": 611,
+          "content": "Inception (2010)",
+          "created_at": "2010-07-31T20:30:00Z",
+          "score": 0.8767168472384071
+        },
+        {
+          "post_id": 58559,
+          "user_id": 611,
+          "content": "Dark Knight, The (2008)",
+          "created_at": "2008-07-21T02:54:18Z",
+          "score": 0.8754359092597263
+        },
+        {
+          "post_id": 7153,
+          "user_id": 611,
+          "content": "Lord of the Rings: The Return of the King, The (2003)",
+          "created_at": "2003-12-22T20:01:15Z",
+          "score": 0.8719985166017362
+        },
+        {
+          "post_id": 68157,
+          "user_id": 611,
+          "content": "Inglourious Basterds (2009)",
+          "created_at": "2009-09-12T03:57:41Z",
+          "score": 0.8639595480623385
+        },
+        {
+          "post_id": 91529,
+          "user_id": 611,
+          "content": "Dark Knight Rises, The (2012)",
+          "created_at": "2012-07-19T20:05:32Z",
+          "score": 0.860426939470083
+        }
+      ]
+    },
+    {
+      "user_id": 2,
+      "strategy": "learned",
+      "posts": [
+        {
+          "post_id": 318,
+          "user_id": 611,
+          "content": "Shawshank Redemption, The (1994)",
+          "created_at": "1996-04-17T17:08:18Z",
+          "score": 0.9094694299219164
+        },
+        {
+          "post_id": 2959,
+          "user_id": 611,
+          "content": "Fight Club (1999)",
+          "created_at": "1999-12-11T19:19:22Z",
+          "score": 0.8945788566376484
+        },
+        {
+          "post_id": 2571,
+          "user_id": 611,
+          "content": "Matrix, The (1999)",
+          "created_at": "1999-05-12T11:57:41Z",
+          "score": 0.8869573962060863
+        },
+        {
+          "post_id": 7153,
+          "user_id": 611,
+          "content": "Lord of the Rings: The Return of the King, The (2003)",
+          "created_at": "2003-12-22T20:01:15Z",
+          "score": 0.8804337971727615
+        },
+        {
+          "post_id": 91529,
+          "user_id": 611,
+          "content": "Dark Knight Rises, The (2012)",
+          "created_at": "2012-07-19T20:05:32Z",
+          "score": 0.8655176017054889
+        }
+      ]
+    },
+    {
+      "user_id": 414,
+      "strategy": "learned",
+      "posts": [
+        {
+          "post_id": 74458,
+          "user_id": 611,
+          "content": "Shutter Island (2010)",
+          "created_at": "2010-02-22T05:29:20Z",
+          "score": 0.8405990353567419
+        },
+        {
+          "post_id": 47099,
+          "user_id": 611,
+          "content": "Pursuit of Happyness, The (2006)",
+          "created_at": "2007-04-08T16:43:32Z",
+          "score": 0.7558794060780064
+        },
+        {
+          "post_id": 122912,
+          "user_id": 611,
+          "content": "Avengers: Infinity War - Part I (2018)",
+          "created_at": "2018-05-02T17:27:27Z",
+          "score": 0.735344916209174
+        },
+        {
+          "post_id": 88125,
+          "user_id": 611,
+          "content": "Harry Potter and the Deathly Hallows: Part 2 (2011)",
+          "created_at": "2011-07-22T12:20:37Z",
+          "score": 0.731592382771008
+        },
+        {
+          "post_id": 88810,
+          "user_id": 611,
+          "content": "Help, The (2011)",
+          "created_at": "2011-12-26T00:15:18Z",
+          "score": 0.703149568043889
+        }
+      ]
+    },
+    {
+      "user_id": 442,
+      "strategy": "learned",
+      "posts": [
+        {
+          "post_id": 79132,
+          "user_id": 611,
+          "content": "Inception (2010)",
+          "created_at": "2010-07-31T20:30:00Z",
+          "score": 0.8075269063367899
+        },
+        {
+          "post_id": 58559,
+          "user_id": 611,
+          "content": "Dark Knight, The (2008)",
+          "created_at": "2008-07-21T02:54:18Z",
+          "score": 0.7801834435674101
+        },
+        {
+          "post_id": 2571,
+          "user_id": 611,
+          "content": "Matrix, The (1999)",
+          "created_at": "1999-05-12T11:57:41Z",
+          "score": 0.748599495025547
+        },
+        {
+          "post_id": 318,
+          "user_id": 611,
+          "content": "Shawshank Redemption, The (1994)",
+          "created_at": "1996-04-17T17:08:18Z",
+          "score": 0.7318290863888988
+        },
+        {
+          "post_id": 91529,
+          "user_id": 611,
+          "content": "Dark Knight Rises, The (2012)",
+          "created_at": "2012-07-19T20:05:32Z",
+          "score": 0.7308507704398208
+        }
+      ]
+    }
+  ],
+  "scope": "Inference parity and application integration, not a new held-out quality evaluation."
+}

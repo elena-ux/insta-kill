@@ -49,14 +49,20 @@ class SearchService:
         self.encoder = encoder
         self._lock = Lock()
 
-    def search(self, query: str, mode: SearchMode = "semantic", limit: int = 5) -> SearchResponse:
+    def search(
+        self,
+        query: str,
+        mode: SearchMode = "semantic",
+        limit: int = 5,
+        collection: str | None = None,
+    ) -> SearchResponse:
         query = query.strip()
         if not query or len(query) > 500 or not 1 <= limit <= 50:
             raise ValueError("Use a nonblank query of at most 500 characters and limit 1–50.")
         if mode not in ("semantic", "keyword"):
             raise ValueError("Choose semantic or keyword search.")
 
-        posts = self.repository.all_posts()
+        posts = self.repository.all_posts(collection)
         post_ids = [post.id for post in posts]
         if None in post_ids or len(set(post_ids)) != len(posts):
             raise ValueError("Stored posts must have distinct IDs.")

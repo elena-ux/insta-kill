@@ -20,11 +20,16 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
+    info = app.state.feed_service.repository.dataset_info()
+    app.state.demo_time = info["reference_time"]
+    app.state.default_collection = "movies" if info["source"] == "movielens" else "community"
     yield
 
 
 def create_app(*, like_model_path: Path = MODEL_PATH) -> FastAPI:
     app = FastAPI(title="InstaKill", lifespan=lifespan)
+    app.state.demo_time = None
+    app.state.default_collection = "community"
     repository = SQLitePostRepository()
     app.state.search_service = SearchService(repository, SentenceEncoder())
     try:

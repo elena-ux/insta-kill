@@ -55,7 +55,12 @@ class FeedService:
         self.like_model = like_model
 
     def build(
-        self, user_id: int, now: datetime, strategy: FeedStrategy = "for_you", limit: int = 20
+        self,
+        user_id: int,
+        now: datetime,
+        strategy: FeedStrategy = "for_you",
+        limit: int = 20,
+        collection: str | None = None,
     ) -> FeedResponse:
         """Read candidates, apply the strategy, and build the feed response."""
         if (
@@ -66,7 +71,7 @@ class FeedService:
             raise ValueError("Invalid feed parameters.")
         now = utc(now)
         if strategy == "learned":
-            snapshot = self.repository.learned_snapshot(user_id, now)
+            snapshot = self.repository.learned_snapshot(user_id, now, collection)
             if snapshot is None:
                 raise UnknownUser("This user does not exist.")
             if self.like_model is None:
@@ -76,7 +81,7 @@ class FeedService:
                 for hit in rank_learned(snapshot, user_id, now, self.like_model, limit)
             ]
         else:
-            ranked = self._week4_feed(user_id, now, strategy, limit)
+            ranked = self._week4_feed(user_id, now, strategy, limit, collection)
         return FeedResponse(
             user_id=user_id,
             strategy=strategy,
@@ -92,9 +97,9 @@ class FeedService:
             ],
         )
 
-    def _week4_feed(self, user_id: int, now: datetime, strategy: str, limit: int):
+    def _week4_feed(self, user_id: int, now: datetime, strategy: str, limit: int, collection=None):
         """Keep the original formula and chronological strategy unchanged."""
-        snapshot = self.repository.feed_snapshot(user_id, now)
+        snapshot = self.repository.feed_snapshot(user_id, now, collection)
         if snapshot is None:
             raise UnknownUser("This user does not exist.")
         candidates = snapshot.posts

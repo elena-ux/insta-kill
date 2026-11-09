@@ -22,6 +22,57 @@ input,
 select {
   font: inherit;
 }
+textarea {
+  font: inherit;
+  color: var(--ink);
+  resize: vertical;
+}
+.collection-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+.collection-controls select,
+.draft-form input,
+.draft-form textarea {
+  border: 1px solid #ad98ad;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 10px 12px;
+}
+.collection-controls .dataset-summary {
+  margin: 0;
+}
+.draft-form {
+  display: grid;
+  gap: 12px;
+}
+.draft-form input {
+  width: 120px;
+  margin-bottom: 12px;
+}
+.draft-form textarea {
+  width: 100%;
+}
+.draft-form button {
+  justify-self: start;
+}
+.draft-preview {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+}
+.draft-preview h2 {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+.draft-preview > p:last-child {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
 button {
   cursor: pointer;
 }
@@ -624,13 +675,13 @@ h1 {
   .nav-inner {
     padding: 0 22px;
     min-height: 76px;
-    gap: 36px;
+    gap: 24px;
   }
   .wordmark {
     font-size: 1.625rem;
   }
   nav {
-    gap: 24px;
+    gap: 18px;
   }
   .nav-item {
     font-size: 0.875rem;

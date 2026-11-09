@@ -1,0 +1,470 @@
+{
+  "users": [
+    "elena",
+    "mara",
+    "andrei",
+    "ioana",
+    "radu",
+    "teo"
+  ],
+  "posts": [
+    {
+      "author": 2,
+      "content": "A budget-friendly restaurant opened near the station. Generous evening meals without a big bill.",
+      "categories": [
+        "food"
+      ]
+    },
+    {
+      "author": 4,
+      "content": "The student canteen serves an affordable evening meal after lectures.",
+      "categories": [
+        "food",
+        "campus"
+      ]
+    },
+    {
+      "author": 3,
+      "content": "Cook a filling pasta dish for two on a tiny grocery budget tonight.",
+      "categories": [
+        "food"
+      ]
+    },
+    {
+      "author": 5,
+      "content": "Cheap headphones: a review of three pairs under twenty euros.",
+      "categories": [
+        "technology"
+      ]
+    },
+    {
+      "author": 6,
+      "content": "A lovely restaurant for a birthday celebration. The tasting menu is expensive.",
+      "categories": [
+        "food"
+      ]
+    },
+    {
+      "author": 3,
+      "content": "An easy jogging loop follows the river. Flat paths make it a good first run.",
+      "categories": [
+        "sport"
+      ]
+    },
+    {
+      "author": 4,
+      "content": "New to jogging? Try the short park loop, away from the river and all the traffic.",
+      "categories": [
+        "sport"
+      ]
+    },
+    {
+      "author": 5,
+      "content": "A gentle two-kilometre trail through the hills for your first jogging session.",
+      "categories": [
+        "sport"
+      ]
+    },
+    {
+      "author": 6,
+      "content": "Training for a marathon: steep hill repeats and a fast finish this weekend.",
+      "categories": [
+        "sport"
+      ]
+    },
+    {
+      "author": 2,
+      "content": "Our running club is collecting old shoes for the community centre.",
+      "categories": [
+        "sport",
+        "campus"
+      ]
+    },
+    {
+      "author": 4,
+      "content": "Type hints in Python make function inputs and return values easier to understand.",
+      "categories": [
+        "technology"
+      ]
+    },
+    {
+      "author": 3,
+      "content": "A gentle guide to Python annotations: str, int and list explained with small examples.",
+      "categories": [
+        "technology"
+      ]
+    },
+    {
+      "author": 5,
+      "content": "Practising Python typing with Optional and dictionaries at the library this afternoon.",
+      "categories": [
+        "technology",
+        "campus"
+      ]
+    },
+    {
+      "author": 2,
+      "content": "A beginner photography walk around the old town on Saturday morning.",
+      "categories": [
+        "arts"
+      ]
+    },
+    {
+      "author": 6,
+      "content": "The campus library stays open late during exam week.",
+      "categories": [
+        "campus"
+      ]
+    },
+    {
+      "author": 3,
+      "content": "Best street food in Lisbon: grilled fish and a walk through the market.",
+      "categories": [
+        "food",
+        "travel"
+      ]
+    },
+    {
+      "author": 4,
+      "content": "Pasta night: a quick tomato sauce for a shared student kitchen.",
+      "categories": [
+        "food"
+      ]
+    },
+    {
+      "author": 5,
+      "content": "The train station ticket office will close early on Sunday.",
+      "categories": [
+        "travel"
+      ]
+    },
+    {
+      "author": 6,
+      "content": "Free acoustic concert in the student courtyard this Friday.",
+      "categories": [
+        "arts",
+        "campus"
+      ]
+    },
+    {
+      "author": 2,
+      "content": "A calm place to study is the small reading room above the cafe.",
+      "categories": [
+        "campus"
+      ]
+    },
+    {
+      "author": 4,
+      "content": "Looking for a teammate for the university chess tournament.",
+      "categories": [
+        "sport",
+        "campus"
+      ]
+    },
+    {
+      "author": 5,
+      "content": "The new phone camera handles low light surprisingly well.",
+      "categories": [
+        "technology",
+        "arts"
+      ]
+    },
+    {
+      "author": 6,
+      "content": "A soup recipe using leftover vegetables from the weekly market.",
+      "categories": [
+        "food"
+      ]
+    },
+    {
+      "author": 3,
+      "content": "Cycling to campus is easier now that the protected lane is finished.",
+      "categories": [
+        "sport",
+        "campus"
+      ]
+    },
+    {
+      "author": 4,
+      "content": "The pottery studio has two free places in its weekend workshop.",
+      "categories": [
+        "arts"
+      ]
+    },
+    {
+      "author": 5,
+      "content": "A short beginner guide to JavaScript promises and async functions.",
+      "categories": [
+        "technology"
+      ]
+    },
+    {
+      "author": 6,
+      "content": "The riverside path is closed this evening because of flooding.",
+      "categories": [
+        "sport"
+      ]
+    },
+    {
+      "author": 2,
+      "content": "Comparing cosine similarity and word overlap for our class search project.",
+      "categories": [
+        "technology",
+        "campus"
+      ]
+    },
+    {
+      "author": 3,
+      "content": "Our book club is reading short stories and meeting at the cafe on Thursday.",
+      "categories": [
+        "arts"
+      ]
+    },
+    {
+      "author": 1,
+      "content": "Building a small social app with classmates, one useful feature at a time.",
+      "categories": [
+        "technology",
+        "campus"
+      ]
+    }
+  ],
+  "follows": [
+    [
+      1,
+      2
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      3,
+      5
+    ],
+    [
+      4,
+      2
+    ]
+  ],
+  "likes": [
+    [
+      2,
+      7
+    ],
+    [
+      3,
+      7
+    ],
+    [
+      4,
+      7
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      6,
+      7
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      3,
+      1
+    ],
+    [
+      5,
+      1
+    ],
+    [
+      6,
+      1
+    ],
+    [
+      2,
+      11
+    ],
+    [
+      3,
+      11
+    ],
+    [
+      5,
+      11
+    ],
+    [
+      6,
+      11
+    ],
+    [
+      3,
+      16
+    ],
+    [
+      4,
+      16
+    ],
+    [
+      5,
+      16
+    ],
+    [
+      6,
+      16
+    ],
+    [
+      1,
+      14
+    ],
+    [
+      1,
+      19
+    ],
+    [
+      2,
+      2
+    ],
+    [
+      3,
+      3
+    ],
+    [
+      4,
+      6
+    ],
+    [
+      5,
+      12
+    ],
+    [
+      6,
+      17
+    ]
+  ],
+  "queries": [
+    {
+      "query": "cheap dinner",
+      "relevant_ids": [
+        1,
+        2,
+        3
+      ],
+      "purpose": "original lab query"
+    },
+    {
+      "query": "beginner running route",
+      "relevant_ids": [
+        6,
+        7,
+        8
+      ],
+      "purpose": "original lab query"
+    },
+    {
+      "query": "learn Python types",
+      "relevant_ids": [
+        11,
+        12,
+        13
+      ],
+      "purpose": "original lab query"
+    },
+    {
+      "query": "inexpensive supper",
+      "relevant_ids": [
+        1,
+        2,
+        3
+      ],
+      "purpose": "paraphrase without exact overlap"
+    },
+    {
+      "query": "quantum computing scholarship",
+      "relevant_ids": [],
+      "purpose": "absent topic; nearest is not necessarily relevant"
+    },
+    {
+      "query": "beginner running route away from the river",
+      "relevant_ids": [
+        7,
+        8
+      ],
+      "purpose": "location constraint; inspect riverside false positives"
+    }
+  ],
+  "starter": {
+    "users": [
+      {
+        "id": 1,
+        "username": "alice",
+        "created_at": "2026-09-27 16:36:37"
+      },
+      {
+        "id": 2,
+        "username": "bob",
+        "created_at": "2026-09-27 16:36:37"
+      },
+      {
+        "id": 3,
+        "username": "carol",
+        "created_at": "2026-09-27 16:36:37"
+      },
+      {
+        "id": 4,
+        "username": "dave",
+        "created_at": "2026-09-27 16:36:37"
+      },
+      {
+        "id": 5,
+        "username": "erin",
+        "created_at": "2026-09-27 16:36:37"
+      }
+    ],
+    "posts": [
+      {
+        "id": 1,
+        "user_id": 1,
+        "content": "hello world, this is my first post",
+        "created_at": "2026-09-27 16:36:37"
+      },
+      {
+        "id": 2,
+        "user_id": 1,
+        "content": "does anyone else think the feed is chronological only? boring",
+        "created_at": "2026-09-27 16:36:37"
+      },
+      {
+        "id": 3,
+        "user_id": 2,
+        "content": "just shipped a cosine similarity search, feels great",
+        "created_at": "2026-09-27 16:36:37"
+      },
+      {
+        "id": 4,
+        "user_id": 3,
+        "content": "spam spam spam buy now click here",
+        "created_at": "2026-09-27 16:36:37"
+      },
+      {
+        "id": 5,
+        "user_id": 4,
+        "content": "benchmarking my ranker against popularity baseline today",
+        "created_at": "2026-09-27 16:36:37"
+      },
+      {
+        "id": 6,
+        "user_id": 5,
+        "content": "red-team week is going to be brutal, good luck everyone",
+        "created_at": "2026-09-27 16:36:37"
+      }
+    ]
+  }
+}

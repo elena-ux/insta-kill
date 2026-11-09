@@ -2,9 +2,17 @@
 
 Programming for AI · Elena Podariu-Ungureanu
 
-One application for preparing drafts, searching posts, and comparing feed strategies.
-It uses a single SQLite database, `data/instakill.db`, with **Community** and **Movies**
-collections. Change the collection in the page; the server and database stay the same.
+A social app built with FastAPI and SQLite.
+
+- [Week 2](docs/week02.md): preparing a post draft.
+- [Week 3](docs/week03.md): semantic and keyword search.
+- [Week 4](docs/week04.md): personalized and chronological feeds.
+- [Week 5](docs/week05.md): a learned feed using the exported NumPy model.
+- [API contract](docs/api-contract.md): requests, responses, and errors.
+
+**Community** and **Movies** share one SQLite database, `data/instakill.db`.
+Choose the collection in the app. The weekly pages describe the submitted versions;
+use the setup below for the current application.
 
 ## Running the app
 
@@ -85,14 +93,6 @@ collection and feed strategy, and previewing a draft. Displayed results must mat
 the API, and a preview must leave the post count unchanged. These checks support
 the integration; recommendation quality on real social posts still needs separate
 evaluation. [Verification results](docs/evidence/unified/checks.json).
-
-## Submitted weekly explanations
-
-The weekly explanations are retained:
-[Week 2](docs/week02.md) · [Week 3](docs/week03.md) ·
-[Week 4](docs/week04.md) · [Week 5](docs/week05.md).
-Earlier setup commands in these records refer to the separate demos used at that stage.
-Use the single setup above for the current application.
 
 ## Feed — Week 5
 

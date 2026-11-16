@@ -68,10 +68,20 @@ for (const width of [1440, 390]) {
     expect(await page.locator(".post-meta span").allTextContents()).not.toEqual(
       firstIds,
     );
-    for (const name of ["Latest", "For you", "Learned"]) {
+    for (const name of ["Latest", "For you", "Learned", "Popularity"]) {
       await page.getByRole("radio", { name, exact: true }).check();
       await expect(page.locator(".post")).toHaveCount(20);
     }
+    await expect(page.getByRole("heading", { name: "Most-liked posts" })).toBeVisible();
+    const popular = await (
+      await page.request.get(
+        "/feed?user_id=442&strategy=popularity&limit=20&collection=movies",
+      )
+    ).json();
+    expect(await page.locator(".post-meta span").allTextContents()).toEqual(
+      popular.posts.map((post) => `Post ${post.post_id}`),
+    );
+    await expect(page.locator(".score").first()).toContainText("Popularity score");
     await page.getByRole("spinbutton", { name: "Your user ID" }).fill("999");
     await page.getByRole("button", { name: "Load feed" }).click();
     await expect(page.getByRole("alert")).toContainText("does not exist");

@@ -28,13 +28,18 @@ textarea {
   resize: vertical;
 }
 .collection-controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 12px;
-  margin-bottom: 30px;
+  display: grid;
+  grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
+  align-items: center;
+  gap: 8px 16px;
+  margin-bottom: 24px;
+}
+.collection-controls .field-label {
+  grid-column: 1 / -1;
+  margin: 0;
 }
 .collection-controls select,
+.feed-controls input,
 .draft-form input,
 .draft-form textarea {
   border: 1px solid #ad98ad;
@@ -42,6 +47,17 @@ textarea {
   background: var(--surface);
   color: var(--ink);
   padding: 10px 12px;
+}
+.collection-controls select,
+.feed-controls input,
+.feed-controls .primary-button {
+  min-height: 3rem;
+  line-height: 1.5;
+  border-radius: 8px;
+}
+.collection-controls select {
+  width: 100%;
+  min-width: 0;
 }
 .collection-controls .dataset-summary {
   margin: 0;
@@ -377,19 +393,23 @@ h1 {
   min-height: 38px;
 }
 .feed-controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 28px;
   margin-bottom: 24px;
 }
+.feed-controls .field-label {
+  margin-bottom: 8px;
+}
+.feed-input-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
 .feed-controls input {
-  width: 120px;
-  border: 1px solid #ad98ad;
-  border-radius: 8px;
-  background: var(--surface);
-  padding: 12px;
-  color: var(--ink);
+  width: 7.5rem;
+  max-width: 100%;
+}
+.feed-controls .primary-button {
+  padding: 10px 16px;
 }
 .results-space {
   min-height: 280px;
@@ -710,6 +730,12 @@ h1 {
   .work-area {
     width: 100%;
   }
+  .collection-controls {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .collection-controls select {
+    width: min(12rem, 100%);
+  }
   .context-note {
     width: 100%;
     margin-top: 0;
@@ -791,21 +817,6 @@ h1 {
   .welcome-state {
     padding: 35px 0 20px;
   }
-  .feed-controls {
-    gap: 18px;
-    align-items: flex-start;
-  }
-  .feed-controls .primary-button {
-    margin-top: 29px;
-    gap: 8px;
-    padding: 13px 15px;
-  }
-  .feed-controls input {
-    width: 100px;
-  }
-  .feed-controls .field-help {
-    max-width: 24ch;
-  }
   .result-note {
     font-size: 0.6875rem;
   }
@@ -835,8 +846,7 @@ h1 {
 nav {
   min-height: 76px;
 }
-.controls-row,
-.feed-controls {
+.controls-row {
   flex-wrap: wrap;
 }
 .segmented {

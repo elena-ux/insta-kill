@@ -14,6 +14,15 @@ A social app built with FastAPI and SQLite.
 Choose the collection in the app. The weekly pages describe the submitted versions;
 use the setup below for the current application.
 
+**Your feed** has four options: **For you**, **Latest**, **Learned**, and
+**Popularity**. Popularity puts the most-liked eligible posts first. It reuses
+the Week 4 ranking function with weights `(0, 0, 1)`, so only likes affect the
+score: `post likes / highest like count in the selected collection`.
+For example, 4 likes out of a maximum of 5 gives a score of `0.8`.
+Equal scores use the lower post ID first; if there are no likes, all scores are 0.
+Own, already-liked, and future posts are excluded. Try it with
+`GET /feed?user_id=612&strategy=popularity&collection=community`.
+
 ## Running the app
 
 Python 3.11+; tested with Python 3.12.

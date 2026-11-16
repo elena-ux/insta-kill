@@ -92,9 +92,35 @@ def test_seeded_feed_strategies_exclusions_and_cold_start(database):
     assert service.build(6, NOW).posts  # no follows: global eligible posts, affinity zero
 
 
-def test_snapshot_hides_future_likes_follows_and_posts(database):
+@pytest.mark.parametrize("weights", [FeedWeights(), FeedWeights(10, 20, 0)])
+def test_popularity_ranks_only_by_likes_and_breaks_ties_by_id(database, weights):
+    service = FeedService(SQLitePostRepository(database), weights=weights)
+    posts = service.build(1, NOW, "popularity", 5).posts
+    # Post 7 has 5 likes; 1, 11, and 16 have 4; post 2 has 1.
+    assert [p.post_id for p in posts] == [7, 1, 11, 16, 2]
+    assert [p.score for p in posts] == [1.0, 0.8, 0.8, 0.8, 0.2]
+    all_posts = service.build(1, NOW, "popularity", 50).posts
+    assert len(all_posts) == 27
+    assert not {14, 19, 30} & {p.post_id for p in all_posts}
+    assert service.build(6, NOW, "popularity").posts  # No follows needed.
+
+
+def test_popularity_without_likes_and_without_posts(database):
+    service = FeedService(SQLitePostRepository(database))
+    with closing(get_connection(database)) as c, c:
+        c.execute('DELETE FROM "like"')
+    posts = service.build(1, NOW, "popularity", 5).posts
+    assert [p.post_id for p in posts] == [1, 2, 3, 4, 5]
+    assert all(p.score == 0 for p in posts)
+    with closing(get_connection(database)) as c, c:
+        c.execute("DELETE FROM post")
+    assert service.build(1, NOW, "popularity").posts == []
+
+
+@pytest.mark.parametrize("strategy", ["for_you", "chronological", "popularity"])
+def test_snapshot_hides_future_likes_follows_and_posts(database, strategy):
     repo = SQLitePostRepository(database)
-    before = FeedService(repo).build(1, NOW)
+    before = FeedService(repo).build(1, NOW, strategy)
     future = (NOW + timedelta(days=1)).isoformat()
     with closing(get_connection(database)) as c, c:
         c.execute('INSERT INTO "like" VALUES(1,7,?)', (future,))
@@ -103,7 +129,7 @@ def test_snapshot_hides_future_likes_follows_and_posts(database):
             "INSERT INTO post(id,user_id,content,created_at) VALUES(31,2,?,?)",
             ("Future post", future),
         )
-    assert before == FeedService(repo).build(1, NOW)
+    assert before == FeedService(repo).build(1, NOW, strategy)
 
 
 def test_chronological_ties_use_ascending_id(database):
@@ -132,6 +158,12 @@ def test_seeded_feed_api(database):
             "/feed", params={"user_id": 1, "strategy": "chronological", "limit": 3}
         ).json()
         assert len(latest["posts"]) == 3 and "score" not in latest["posts"][0]
+        popular = client.get("/feed?user_id=1&strategy=popularity&limit=5")
+        assert popular.status_code == 200
+        assert popular.json()["strategy"] == "popularity"
+        assert [p["post_id"] for p in popular.json()["posts"]] == [7, 1, 11, 16, 2]
+        assert [p["score"] for p in popular.json()["posts"]] == [1.0, 0.8, 0.8, 0.8, 0.2]
+        assert client.get("/feed?user_id=999&strategy=popularity").status_code == 404
         assert client.get("/feed?user_id=999").status_code == 404
         for query in [
             "",

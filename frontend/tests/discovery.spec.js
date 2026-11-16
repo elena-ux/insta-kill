@@ -48,6 +48,8 @@ for (const viewport of [
     await page.getByRole("button", { name: "Search posts" }).click();
     await expect(page.locator(".score").first()).toContainText("matching word");
     await page.getByRole("button", { name: "Your feed", exact: true }).click();
+    await expect(page.getByRole("radio")).toHaveCount(4);
+    await expect(page.getByRole("radio").nth(3)).toHaveAccessibleName("Popularity");
     await page.getByRole("button", { name: "Load feed" }).click();
     await expect(page.locator(".post")).toHaveCount(5);
     const personal = await page.locator(".post-meta").allTextContents();
@@ -82,6 +84,23 @@ for (const viewport of [
     );
     await page.screenshot({
       path: path.join(evidence, `learned-${viewport.width}.png`),
+      fullPage: true,
+      animations: "disabled",
+    });
+    await page.getByRole("radio", { name: "Popularity", exact: true }).check();
+    await expect(page.getByRole("heading", { name: "Most-liked posts" })).toBeVisible();
+    await expect(page.locator(".post")).toHaveCount(5);
+    const popular = await (
+      await page.request.get(
+        `/feed?user_id=${userId}&strategy=popularity&limit=5&collection=community`,
+      )
+    ).json();
+    expect(await page.locator(".post-meta span").allTextContents()).toEqual(
+      popular.posts.map((post) => `Post ${post.post_id}`),
+    );
+    await expect(page.locator(".score").first()).toHaveText("Popularity score 1.000");
+    await page.screenshot({
+      path: path.join(evidence, `popularity-${viewport.width}.png`),
       fullPage: true,
       animations: "disabled",
     });

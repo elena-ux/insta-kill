@@ -92,7 +92,7 @@ def test_feed_uses_visible_historical_clock_for_all_strategies(source, tmp_path,
         assert dataset["source"] == "movielens"
         assert dataset["reference_time"] == info["reference_time"]
         assert (dataset["first_user_id"], dataset["last_user_id"]) == (1, 3)
-        for strategy in ("learned", "for_you", "chronological"):
+        for strategy in ("learned", "for_you", "chronological", "popularity"):
             response = client.get(f"/feed?user_id=1&strategy={strategy}&limit=20")
             expected = service.build(1, reference_time, strategy).model_dump(
                 mode="json", exclude_none=True
@@ -122,6 +122,9 @@ def test_one_database_keeps_collections_and_normalization_separate(source, tmp_p
         assert community_info["reference_time"] is None
         movies = client.get("/feed?user_id=1&strategy=learned&collection=movies").json()
         assert {post["post_id"] for post in movies["posts"]} == {10, 30}
+        popular = client.get("/feed?user_id=1&strategy=popularity&collection=movies").json()
+        assert [p["post_id"] for p in popular["posts"]] == [10, 30]
+        assert [p["score"] for p in popular["posts"]] == [1.0, 1.0]
         community_id = info["collections"]["community"]["first_user_id"]
         community = client.get(f"/feed?user_id={community_id}&collection=community").json()
         assert all(post["post_id"] > 30 for post in community["posts"])
@@ -136,6 +139,7 @@ def test_one_database_keeps_collections_and_normalization_separate(source, tmp_p
                 [(user, "2001-01-01T00:00:00+00:00") for user in (1, 2, 3)],
             )
         assert client.get("/feed?user_id=1&strategy=learned&collection=movies").json() == movies
+        assert client.get("/feed?user_id=1&strategy=popularity&collection=movies").json() == popular
 
 
 def test_draft_preview_uses_existing_service_without_saving(source, tmp_path, monkeypatch):

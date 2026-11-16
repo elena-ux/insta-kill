@@ -29,16 +29,19 @@ return `422`. The result is not saved, published, or added to search and feed re
 
 - `user_id`: required positive integer.
 - `limit`: integer between 1 and 50, default 20.
-- `strategy`: `for_you`, `chronological`, or `learned`, default `for_you`.
+- `strategy`: `for_you`, `chronological`, `learned`, or `popularity`, default `for_you`.
 - `collection`: `community` or `movies`; see the default above.
 
 The `200` response contains `user_id`, `strategy`, and `posts`, with at most
 `limit` posts. Each post has `post_id`, `user_id` (the author), `content`, and
 `created_at`. For `for_you`, it also includes the numeric formula `score`.
 For `learned`, `score` is the model's estimated P(like), between 0 and 1.
+For `popularity`, `score` is the post's likes divided by the highest per-post
+like count in the selected collection, or 0 when there are no likes.
+Only likes up to the request time count. This orders posts by total likes.
 For `chronological`, the `score` field is omitted.
 
-`for_you` and `learned` order by score descending; `chronological` orders by
+`for_you`, `learned`, and `popularity` order by score descending; `chronological` orders by
 `created_at` descending. All break ties by ascending `post_id`.
 Own, already-liked, and future posts are excluded from all strategies.
 If no posts are eligible, `posts` is an empty list.
@@ -51,7 +54,7 @@ means zero activity and affinity; a post without categories has zero affinity.
 See the [captured learned response](week05-feed-example.json).
 
 The MovieLens collection uses a fixed historical reference time stored by the
-importer: one second after the last rating. This applies to all three strategies
+importer: one second after the last rating. This applies to all four strategies
 as an internal calculation setting. `GET /dataset` reports that time and actual row counts;
 `users` excludes the separate catalogue author. For the Community collection,
 `reference_time` and `catalogue_user_id` are null and feeds use the current UTC time.

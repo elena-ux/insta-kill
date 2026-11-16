@@ -257,7 +257,7 @@ def test_model_failure_does_not_break_other_strategies(database, tmp_path, missi
         response = client.get("/feed?user_id=1&strategy=learned")
         assert response.status_code == 503
         assert "For you or Latest" in response.json()["detail"]
-        for strategy in ("for_you", "chronological"):
+        for strategy in ("for_you", "chronological", "popularity"):
             assert client.get(f"/feed?user_id=1&strategy={strategy}").status_code == 200
         assert client.get("/health").status_code == 200
         assert client.get("/search?q=Python&mode=keyword").status_code == 200

@@ -9,7 +9,7 @@ from app.infrastructure.like_model import LearnedUnavailable
 from app.learned import Model, rank_learned
 from app.ranking import FeedSignals, FeedWeights, chronological_feed, rank_feed, utc
 
-FeedStrategy = Literal["for_you", "chronological", "learned"]
+FeedStrategy = Literal["for_you", "chronological", "learned", "popularity"]
 
 
 class UnknownUser(ValueError):
@@ -66,7 +66,7 @@ class FeedService:
         if (
             user_id <= 0
             or not 1 <= limit <= 50
-            or strategy not in ("for_you", "chronological", "learned")
+            or strategy not in ("for_you", "chronological", "learned", "popularity")
         ):
             raise ValueError("Invalid feed parameters.")
         now = utc(now)
@@ -98,7 +98,7 @@ class FeedService:
         )
 
     def _week4_feed(self, user_id: int, now: datetime, strategy: str, limit: int, collection=None):
-        """Keep the original formula and chronological strategy unchanged."""
+        """Use the Week 4 signals for formula, chronological, and popularity feeds."""
         snapshot = self.repository.feed_snapshot(user_id, now, collection)
         if snapshot is None:
             raise UnknownUser("This user does not exist.")
@@ -117,8 +117,14 @@ class FeedService:
                     affinity=affinity(post.user_id, snapshot.followed_authors),
                     popularity=popularity(snapshot.like_counts.get(post.id, 0), max_likes),
                 )
+            # Popularity uses likes alone; freshness and affinity contribute nothing.
+            weights = (
+                FeedWeights(freshness=0, affinity=0, popularity=1)
+                if strategy == "popularity"
+                else self.weights
+            )
             ranked = [
                 (hit.post, hit.score)
-                for hit in rank_feed(candidates, signals, now, self.weights, limit)
+                for hit in rank_feed(candidates, signals, now, weights, limit)
             ]
         return ranked

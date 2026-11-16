@@ -333,10 +333,10 @@ function App() {
             {isDraft
               ? "Write a draft and check it before sharing."
               : isMovieLens
-                ? "Explore the MovieLens films and compare the three feed strategies using the original rating history."
+                ? "Explore the MovieLens films and compare the four feed strategies using the original rating history."
                 : isSearch
                   ? "Ideas, recommendations and everyday discoveries. Find a post, even when you don’t have the exact words."
-                  : "The same community, a different order. Compare a simple formula, the latest posts, and a model’s predictions."}
+                  : "The same community, a different order. Compare For you, Latest, Learned and Popularity."}
           </p>
         </div>
         {catalogue && (
@@ -453,10 +453,10 @@ function App() {
                   </>
                 ) : (
                   <div className="feed-controls">
-                    <div>
-                      <label className="field-label" htmlFor="user-id">
-                        Your user ID
-                      </label>
+                    <label className="field-label" htmlFor="user-id">
+                      Your user ID
+                    </label>
+                    <div className="feed-input-row">
                       <input
                         id="user-id"
                         name="user-id"
@@ -467,21 +467,21 @@ function App() {
                         onChange={(e) => setUserId(e.target.value)}
                         aria-describedby="user-help"
                       />
-                      <p className="field-help" id="user-help">
-                        {dataset?.users > 0
-                          ? `Demo users: ${dataset.first_user_id}–${dataset.last_user_id}. `
-                          : "Enter an existing user ID. "}
-                        This chooses a feed; it does not sign you in.
-                      </p>
+                      <button
+                        className="primary-button"
+                        type="submit"
+                        disabled={busy}
+                      >
+                        {busy ? "Loading…" : "Load feed"}
+                        <Icon arrow />
+                      </button>
                     </div>
-                    <button
-                      className="primary-button"
-                      type="submit"
-                      disabled={busy}
-                    >
-                      {busy ? "Loading…" : "Load feed"}
-                      <Icon arrow />
-                    </button>
+                    <p className="field-help" id="user-help">
+                      {dataset?.users > 0
+                        ? `Demo users: ${dataset.first_user_id}–${dataset.last_user_id}. `
+                        : "Enter an existing user ID. "}
+                      This chooses a feed; it does not sign you in.
+                    </p>
                   </div>
                 )}
                 <div className="controls-row">
@@ -498,6 +498,7 @@ function App() {
                           ["for_you", "For you"],
                           ["chronological", "Latest"],
                           ["learned", "Learned"],
+                          ["popularity", "Popularity"],
                         ]
                     ).map(([value, label]) => (
                       <label
@@ -592,6 +593,8 @@ function App() {
                           "Selected for you"
                         ) : activeStrategy === "learned" ? (
                           "Ranked by the model"
+                        ) : activeStrategy === "popularity" ? (
+                          "Most-liked posts"
                         ) : (
                           "The latest conversations"
                         )}
@@ -634,7 +637,9 @@ function App() {
                                         ? `Feed score ${post.score.toFixed(3)}`
                                         : activeStrategy === "learned"
                                           ? `Estimated like ${(post.score * 100).toFixed(1)}%`
-                                          : "Newest first"}
+                                          : activeStrategy === "popularity"
+                                            ? `Popularity score ${post.score.toFixed(3)}`
+                                            : "Newest first"}
                                   </span>
                                 </div>
                               </div>
@@ -689,7 +694,7 @@ function App() {
                     <p>
                       {isSearch
                         ? "Start with a question or try one of the examples above. Your next useful conversation could use entirely different words."
-                        : "Load a member’s feed, then switch between For you, Latest and Learned to compare the order."}
+                        : "Load a member’s feed, then switch between For you, Latest, Learned and Popularity to compare the order."}
                     </p>
                   </div>
                 )}
@@ -711,14 +716,18 @@ function App() {
                     : "“Cheap dinner” and “a budget-friendly restaurant” can point to the same idea. Search by meaning helps make that connection."
                   : activeStrategy === "learned"
                     ? "Learned uses six signals, including the categories you have liked, to estimate which posts you might like next. The model was trained on MovieLens."
-                    : "For you balances fresh posts, authors you follow and community likes. Latest simply puts the newest posts first."}
+                    : activeStrategy === "popularity"
+                      ? "Popularity puts the posts with the most likes first. Equal scores are ordered by post ID."
+                      : "For you balances fresh posts, authors you follow and community likes. Latest simply puts the newest posts first."}
               </p>
               <p className="note-limit">
                 {isSearch
                   ? "Looking for a specific name or phrase? Try By words."
                   : activeStrategy === "learned"
                     ? "No likes yet? The model still scores posts, with no category preference or activity history."
-                    : "No follows yet? You can still discover fresh and popular posts from the community."}
+                    : activeStrategy === "popularity"
+                      ? "This uses total likes, so older posts have had more time to collect them."
+                      : "No follows yet? You can still discover fresh and popular posts from the community."}
               </p>
               <div className="learning-note">
                 <span>
@@ -733,7 +742,9 @@ function App() {
                     ? "Finding relevant posts beyond exact word matches."
                     : activeStrategy === "learned"
                       ? "Using a trained model to score posts, one batch at a time."
-                      : "Making a ranking policy visible and explainable."}
+                      : activeStrategy === "popularity"
+                        ? "Popularity score = a post’s likes divided by the highest like count in this collection."
+                        : "Making a ranking policy visible and explainable."}
                 </p>
               </div>
             </aside>

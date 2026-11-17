@@ -167,7 +167,7 @@ def seed_demo(path: Path, now: datetime | None = None) -> None:
     add_community(path, now or datetime.now(UTC))
 
 
-def setup_demo(source: Path, database: Path = DB_PATH) -> None:
+def setup_demo(source: Path, database: Path = DB_PATH, now: datetime | None = None) -> None:
     if database.exists():
         with closing(get_connection(database)) as conn:
             exists = conn.execute(
@@ -182,7 +182,7 @@ def setup_demo(source: Path, database: Path = DB_PATH) -> None:
                 return
         raise ValueError("The destination already exists. Choose a new path; no data was changed.")
     import_movielens(source, database)
-    add_community(database, datetime.now(UTC), include_starter=True)
+    add_community(database, now or datetime.now(UTC), include_starter=True)
     print(f"Created application database: {database}")
 
 
@@ -192,5 +192,10 @@ if __name__ == "__main__":
         "--source", required=True, type=Path, help="MovieLens ZIP or CSV directory."
     )
     parser.add_argument("--database", type=Path, default=DB_PATH)
+    parser.add_argument(
+        "--now",
+        type=datetime.fromisoformat,
+        help="Fixed Community seed time (ISO date) for reproducing evaluation reports.",
+    )
     args = parser.parse_args()
-    setup_demo(args.source, args.database)
+    setup_demo(args.source, args.database, args.now)

@@ -8,6 +8,7 @@ A social app built with FastAPI and SQLite.
 - [Week 3](docs/week03.md): semantic and keyword search.
 - [Week 4](docs/week04.md): personalized and chronological feeds.
 - [Week 5](docs/week05.md): a learned feed using the exported NumPy model.
+- [Week 7](docs/evaluation-protocol.md): offline feed evaluation, baseline intervals and dashboard.
 - [API contract](docs/api-contract.md): requests, responses, and errors.
 
 **Community** and **Movies** share one SQLite database, `data/instakill.db`.
@@ -70,6 +71,9 @@ backpropagation remain in the completed notebook; the application uses the saved
 
 ## Checks
 
+Install `python -m pip install -e '.[dev,eval]'` to include the Week 7 evaluation
+tests. The API itself does not require pandas or matplotlib.
+
 ```bash
 python -m pytest -q
 ruff check .
@@ -81,6 +85,19 @@ npm --prefix frontend run test:e2e
 Browser tests use the application running on port 8010. Set
 `PLAYWRIGHT_CHROMIUM_EXECUTABLE` if using an installed browser instead of Playwright's.
 Temporary unit-test databases are isolated and never replace the application database.
+
+## Offline evaluation — Week 7
+
+```bash
+python scripts/evaluate.py
+```
+
+Compare the four feeds on a temporary copy of the database.
+[Protocol and reproduction](docs/evaluation-protocol.md) ·
+[Baseline table](reports/baseline_table.md) · [Per-user scores](reports/eval_results.csv).
+Open [the dashboard](reports/dashboard.html) directly in a browser; no server is needed.
+
+## Earlier verification
 
 To verify MovieLens signals and predictions against the completed notebook:
 
